@@ -2,6 +2,8 @@
 // Copyright: 2017 Javier Serrano Polo <javier@jasp.net>
 // License: GPL-3.0+
 
+//TODO: Try window.crypto.wrappedJSObject
+//TODO: or exportFunction(signText, window.crypto, {defineAs:'signText'});
 window.addEventListener("signText", function(event) {
 	self.port.emit("signText", event.detail);
 });
