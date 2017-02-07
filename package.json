@@ -1,17 +1,21 @@
 {
   "name": "signtextjsplus",
-  "title": "signTextJS plus",
-  "id": "jid1-FkPKYIvh3ElkQO@jetpack",
   "description": "window.crypto.signText replacement",
-  "author": "dkeeler@mozilla.com, rbarnes@mozilla.com, vbadev@gmail.com",
-  "license": "MPL 2.0",
   "version": "0.8.6",
+  "author": "dkeeler@mozilla.com, rbarnes@mozilla.com, vbadev@gmail.com",
+  "id": "jid1-FkPKYIvh3ElkQO@jetpack",
+  "license": "GPL-3.0+",
   "main": "lib/main.js",
+  "permissions": {
+    "multiprocess": true,
+    "private-browsing": true
+  },
   "preferences": [{
     "name": "debug",
     "title": "Debug to console",
     "description": "Sends message logging to the console.",
     "type": "bool",
     "value": false
-  }]
+  }],
+  "title": "signTextJS plus"
 }
