@@ -1,7 +1,7 @@
 {
   "name": "signtextjsplus",
   "description": "window.crypto.signText replacement",
-  "version": "0.8.6",
+  "version": "0.8.7",
   "author": "dkeeler@mozilla.com, rbarnes@mozilla.com, vbadev@gmail.com",
   "hasEmbeddedWebExtension": true,
   "id": "jid1-FkPKYIvh3ElkQO@jetpack",
