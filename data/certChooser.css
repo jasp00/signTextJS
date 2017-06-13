@@ -38,3 +38,9 @@ select {
   word-wrap: normal;
   overflow-x: scroll;
 }
+
+.warning {
+  border: 2px solid red;
+  font-weight: bold;
+  color: red;
+}
