@@ -5,19 +5,26 @@
     }
   },
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["common.js", "background.js"]
   },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["content.js"]
+      "js": ["common.js", "encoding.js", "content.js"],
+      "all_frames": true,
+      "run_at": "document_start"
     }
   ],
+  "default_locale_disabled": "en_US",
   "description": "window.crypto.signText replacement",
   "icons": {
     "64": "icons/icon.png"
   },
   "manifest_version": 2,
   "name": "signTextJS plus",
-  "version": "0.8.7"
+  "options_ui": {
+    "page": "options/options.html"
+  },
+  "permissions": ["nativeMessaging", "storage"],
+  "version": "0.9.0"
 }

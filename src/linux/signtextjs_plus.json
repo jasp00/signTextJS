@@ -1,0 +1,7 @@
+{
+  "allowed_extensions": [ "jid1-FkPKYIvh3ElkQO@jetpack" ],
+  "description": "signTextJS plus native logic",
+  "name": "signtextjs_plus",
+  "path": "/usr/lib/mozilla/native-messaging-hosts/signtextjs_plus",
+  "type": "stdio"
+}

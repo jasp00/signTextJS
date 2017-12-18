@@ -1,0 +1,13 @@
+#!/bin/sh
+set -e
+
+VERSION=$(grep "^ *\"version\" *:" | cut -d : -f 2 | grep -Eo "\"[^\"]+\"")
+[ "$VERSION" ]
+
+echo \
+"#ifndef SIGNTEXTJS_PLUS_CONFIG_H
+#define SIGNTEXTJS_PLUS_CONFIG_H
+
+const char WEB_EXTENSION_VERSION[] = $VERSION;
+
+#endif"
