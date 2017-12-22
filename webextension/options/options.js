@@ -2,8 +2,9 @@
 // Copyright: 2017 Javier Serrano Polo <javier@jasp.net>
 // License: GPL-3.0+ WITH reinstatement-exception
 
+let _ = browser.i18n.getMessage;
+
 function saveOptions(e) {
-	e.preventDefault();
 	browser.storage.local.set({
 		debug: document.getElementById("debug").checked
 	});
@@ -20,5 +21,9 @@ function restoreOptions() {
 	);
 }
 
-document.addEventListener("DOMContentLoaded", restoreOptions);
-document.querySelector("form").addEventListener("submit", saveOptions);
+restoreOptions();
+
+document.getElementById("debug").addEventListener("change", saveOptions);
+
+document.getElementById("debug_title").textContent = _("debug_title");
+document.getElementById("debug_title").title = _("debug_description");

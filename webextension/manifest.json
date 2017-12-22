@@ -15,8 +15,8 @@
       "run_at": "document_start"
     }
   ],
-  "default_locale_disabled": "en_US",
-  "description": "window.crypto.signText replacement",
+  "default_locale": "en_US",
+  "description": "window.crypto.signText support and enhancements",
   "icons": {
     "64": "icons/icon.png"
   },

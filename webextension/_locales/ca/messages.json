@@ -1,0 +1,56 @@
+{
+  "title": {
+    "message": "Petició de signatura de text"
+  },
+  "headline": {
+    "message": "El lloc '$hostname$' ha demanat que signis el següent missatge de text:",
+    "placeholders": {
+      "hostname" : {
+        "content" : "$1"
+      }
+    }
+  },
+  "caption": {
+    "message": "Certificat de signatura"
+  },
+  "confirm": {
+    "message": "Per confirmar que vols signar aquest missatge de text amb el certificat seleccionat, per favor introdueix la contrasenya mestra:"
+  },
+  "cancel": {
+    "message": "Cancel·la"
+  },
+  "ok": {
+    "message": "D'acord"
+  },
+  "subject": {
+    "message": "Lliurat a:"
+  },
+  "serial": {
+    "message": "Número de sèrie:"
+  },
+  "serial": {
+    "message": "Vàlid des de"
+  },
+  "to": {
+    "message": "fins"
+  },
+  "key_usage": {
+    "message": "Ús de la clau del certificat:"
+  },
+  "email": {
+    "message": "Adreça de correu:"
+  },
+  "issuer": {
+    "message": "Lliurat per:"
+  },
+  "token": {
+    "message": "Guardat a:"
+  },
+
+  "debug_title": {
+    "message": "Depura a consola"
+  },
+  "debug_description": {
+    "message": "Envia el registre de missatges a la consola."
+  }
+}

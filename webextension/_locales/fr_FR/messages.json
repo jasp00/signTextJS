@@ -1,0 +1,47 @@
+{
+  "title": {
+    "message": "Signature d'un texte"
+  },
+  "headline": {
+    "message": "Le site '$hostname$' vous demande de signer le message suivant",
+    "placeholders": {
+      "hostname" : {
+        "content" : "$1"
+      }
+    }
+  },
+  "caption": {
+    "message": "Certificat de signature"
+  },
+  "confirm": {
+    "message": "Pour confirmer que vous souhaitez effectuer la signature de ce texte avec le certificat choisi, entrez le mot de passe principal:"
+  },
+  "cancel": {
+    "message": "Annuler"
+  },
+  "ok": {
+    "message": "OK"
+  },
+  "subject": {
+    "message": "Pour:"
+  },
+  "serial": {
+    "message": "Numéro de série:"
+  },
+  "valid_from": {
+    "message": "Valide depuis"
+  },
+  "to": {
+    "message": "jusqu'à"
+  },
+
+  "email": {
+    "message": "Email:"
+  },
+  "issuer": {
+    "message": "Issued by:"
+  },
+  "token": {
+    "message": "Stocké dans:"
+  }
+}
