@@ -390,7 +390,8 @@ static bool read_request(Json::Value &req, bool &end) {
 
 static bool write_response(Json::Value &res) {
 	Json::FastWriter writer;
-	writer.omitEndingLineFeed();
+// This is not allowed in the Trusty environment
+//	writer.omitEndingLineFeed();
 	std::string str = writer.write(res);
 	msg_size size;
 	size.u = str.length();
