@@ -1,0 +1,24 @@
+#!/bin/sh
+set -e
+TOPDIR="$1"
+RUNFILE="$2"
+[ "$TOPDIR" -a "$RUNFILE" ]
+
+TOPDIR="$(readlink -e "$TOPDIR")"
+
+cd "$TOPDIR"
+[ -e src/linux/signtextjs_plus ]
+
+rm -fr installer.root
+mkdir installer.root
+cd installer.root
+
+cp -a "$TOPDIR"/src/linux/signtextjs_plus \
+	"$TOPDIR"/src/linux/signtextjs_plus.json \
+	"$TOPDIR"/installer/linux/installer .
+
+strip signtextjs_plus
+
+cd ..
+makeself --xz --complevel 6 installer.root "$RUNFILE" "signTextJS plus" \
+	./installer

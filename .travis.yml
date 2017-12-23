@@ -1,0 +1,30 @@
+language: cpp
+compiler: gcc
+dist: trusty
+sudo: required
+#matrix:
+#  include:
+#  - env: TARGET_OS=win32
+#  - env: TARGET_OS=win64
+#  - os: osx
+#    osx_image: xcode8.2
+before_install:
+- "${TRAVIS_BUILD_DIR}/travis/${TRAVIS_OS_NAME}.${TARGET_OS}.before_install"
+install:
+- "${TRAVIS_BUILD_DIR}/travis/${TRAVIS_OS_NAME}.${TARGET_OS}.install"
+script:
+- "${TRAVIS_BUILD_DIR}/travis/${TRAVIS_OS_NAME}.${TARGET_OS}.script"
+before_deploy:
+- "${TRAVIS_BUILD_DIR}/travis/${TRAVIS_OS_NAME}.${TARGET_OS}.before_deploy"
+deploy:
+  provider: releases
+  api_key:
+    secure: BovT61Yn03S5N5H1rULqGn/uy1ZU4H1QrvpA5eOiEPo0fhwGPRRSt6Br04gO/ccxY5zq2jBNG69apKCuBwfDFZNwvMK79s++Wvn6NEv4ME5cn9LKUAmS4gFilSiAz5GEUos2IzqPj0PDpaUrHJmkDS0B81HB5EIEUR83qKKwreQ149RU7kwxZ0N4YvQ8dsJ03TQ7FY9e0sF78kOOpTLsZ2Di0H2H1lh2kkkf35x5ebezAcMyYSGv97sfKVm8CJ17VQ+io3t6P16vVjKH2qjQuzFEfygNrjUbmBLS04fcLKq8xotS/Jpm25KobKb9C8+a7dHmNZnR6e+optLy62nYcuFwOUKw19R8gBvIRwibNSbqeXUIFu1PQP0mg0KCPH54ywUKyvarpkWmTewcRzH1L6Glw0PcGLebXjvwjlkqM6LWfXq6u2JjHb6bR8PLQ5So379ZZpeMsYBDgDHKcyMMGNsEDM6/c414/J/oDyni2O6dszCPBuMbL7BuFeinSsMFWKjVbssL6GK5d2E9WW4zcSpzjsdxdemsAz+46CO+IOhbzRLOXHaY5MRTsp7cLG1WV1JrypB7hq093BKyhg7bNZq7mvb+GUxo7cegxiQRCd07f8RoKyz/eUZuONeoFT32ygyNoPyzxbMsIo0Ql7I1wDMebvEu8LooRZpqo3gwzyo=
+  file_glob: true
+  file:
+  - signtextjs_plus-${TRAVIS_TAG:1}-*.run
+  - signtextjs_plus-${TRAVIS_TAG:1}-*.exe
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: jasp00/signTextJS

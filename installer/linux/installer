@@ -1,0 +1,18 @@
+#!/bin/sh
+set -e
+
+if [ $(id -u) -eq 0 ]
+then
+	DIR=/usr/lib/mozilla/native-messaging-hosts
+	umask 022
+	chmod +rX *
+else
+	DIR="$HOME"/.mozilla/native-messaging-hosts
+	sed -e "s#/usr/lib/mozilla/native-messaging-hosts#$DIR#" -i \
+		signtextjs_plus.json
+fi
+echo Installing to "$DIR"
+mkdir -p "$DIR"
+
+rm -f "$DIR"/signtextjs_plus "$DIR"/signtextjs_plus.json
+mv signtextjs_plus signtextjs_plus.json "$DIR"
