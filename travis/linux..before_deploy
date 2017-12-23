@@ -2,4 +2,4 @@
 set -e
 
 installer/linux/build-installer . \
-	signtextjs_plus-${TRAVIS_TAG:1}-x86_64-linux-gnu.run
+	signtextjs_plus-${TRAVIS_TAG#?}-x86_64-linux-gnu.run
