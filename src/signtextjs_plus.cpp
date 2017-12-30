@@ -438,7 +438,13 @@ static char *detect_configdir(void) {
 	const char *envvar = getenv("MOZ_CRASHREPORTER_EVENTS_DIRECTORY");
 	if (!envvar)
 		return NULL;
+
+#ifdef __MINGW32__
+	static const char SUBDIRS[] = "\\crashes\\events";
+#else
 	static const char SUBDIRS[] = "/crashes/events";
+#endif
+
 	const char *end = strstr(envvar, SUBDIRS);
 	if (!end)
 		return NULL;

@@ -13,7 +13,9 @@ signatures and filtering by certificate authority.
 How-to
 ------
 This is still work in progress. The Firefox extension is usable on Linux, but it
-depends on a native back end which needs deployment. You can compile the
+depends on a native back end which needs deployment. You can download the
+installer at the [releases](https://github.com/jasp00/signTextJS/releases) page;
+run it as root for system-wide availability. Alternatively, you can compile the
 application and
 [set up](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Native_manifests#Manifest_location)
 the environment.
