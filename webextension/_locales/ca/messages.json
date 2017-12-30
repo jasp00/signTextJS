@@ -28,7 +28,7 @@
   "serial": {
     "message": "Número de sèrie:"
   },
-  "serial": {
+  "valid_from": {
     "message": "Vàlid des de"
   },
   "to": {
