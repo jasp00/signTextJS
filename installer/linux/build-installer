@@ -13,8 +13,9 @@ rm -fr installer.root
 mkdir installer.root
 cd installer.root
 
-cp -a "$TOPDIR"/src/linux/signtextjs_plus "$TOPDIR"/src/signtextjs_plus.json \
-	"$TOPDIR"/installer/linux/installer .
+install "$TOPDIR"/src/linux/signtextjs_plus .
+install -m 644 "$TOPDIR"/src/signtextjs_plus.json .
+install "$TOPDIR"/installer/linux/installer .
 
 strip signtextjs_plus
 

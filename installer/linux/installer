@@ -5,7 +5,7 @@ if [ $(id -u) -eq 0 ]
 then
 	DIR=/usr/lib/mozilla/native-messaging-hosts
 	umask 022
-	chmod +rX *
+	chown 0:0 *
 else
 	DIR="$HOME"/.mozilla/native-messaging-hosts
 	sed -e "s#/usr/lib/mozilla/native-messaging-hosts#$DIR#" -i \
