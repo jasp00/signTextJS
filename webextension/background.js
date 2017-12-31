@@ -37,10 +37,70 @@ function slotFromPort(port) {
 	return -1;
 }
 
+function commonOrFullName(s) {
+	let token = s.match(/CN=[^,]+/)
+	if (token == null)
+		return s;
+	return token[0].substr(3);
+}
+
+const DN_NONE = 0;
+const DN_SUBJECT = 1;
+const DN_SUBJECT_ISSUER = 2;
+const DN_SUBJECT_ISSUER_TIME = 3;
+const DN_SUBJECT_ISSUER_TIME_COUNTER = 4;
+
+function getDisplayName(info) {
+	switch (info.mode) {
+	case DN_SUBJECT:
+		return info.subjectName;
+	case DN_SUBJECT_ISSUER:
+		return `${info.subjectName} (${info.issuerName})`;
+	case DN_SUBJECT_ISSUER_TIME:
+		return `${info.subjectName} (${info.issuerName}; ${info.notBefore})`;
+	}
+	return `${info.subjectName} (${info.issuerName}; ${info.notBefore}) #${info.counter}`;
+}
+
 function fillDisplayNames(certs) {
-// todo
-	for (let cert of certs)
-		cert.displayName = cert.subject;
+	let info = [];
+
+	for (let i = 0; i < certs.length; i++) {
+		let cert = certs[i];
+		info[i] = {
+			subjectName: commonOrFullName(cert.subject),
+			issuerName: commonOrFullName(cert.issuer),
+			notBefore: cert.notBefore,
+			counter: i,
+			mode: DN_SUBJECT
+		};
+	}
+
+	for (let i = 0; i < certs.length;) {
+		let oldName = getDisplayName(info[i]);
+		let collision = DN_NONE;
+		for (let j = 0; j < certs.length; j++) {
+			if (i == j)
+				continue;
+			if (oldName == getDisplayName(info[j]))
+				collision = Math.max(collision, info[i].mode,
+					info[j].mode);
+		}
+		if (collision == DN_NONE) {
+			i++;
+			continue;
+		}
+		if (collision < DN_SUBJECT_ISSUER_TIME_COUNTER)
+			collision++;
+		for (let j = 0; j < certs.length; j++) {
+			if (oldName == getDisplayName(info[j]))
+				info[j].mode = collision;
+		}
+		i = 0;
+	}
+
+	for (let i = 0; i < certs.length; i++)
+		certs[i].displayName = getDisplayName(info[i]);
 }
 
 function openCertChooser(slot) {
