@@ -1,3 +1,6 @@
 #!/bin/sh
+set -e
+PROGRAM="$(readlink -e "$0")"
+DIR="$(dirname "$PROGRAM")"
 LD_LIBRARY_PATH="$LD_LIBRARY_PATH${LD_LIBRARY_PATH:+:}\$ORIGIN" exec \
-	./signtextjs_plus-bin
+	"$DIR"/signtextjs_plus-bin
