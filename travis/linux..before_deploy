@@ -3,5 +3,4 @@ set -e
 
 sudo apt-get install -y makeself
 
-installer/linux/build-installer . \
-	signtextjs_plus-${TRAVIS_TAG#?}-x86_64-linux-gnu.run
+installer/linux/build-installer . "${TRAVIS_TAG#?}"

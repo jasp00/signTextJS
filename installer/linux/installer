@@ -14,5 +14,8 @@ fi
 echo Installing to "$DIR"
 mkdir -p "$DIR"
 
-rm -f "$DIR"/signtextjs_plus "$DIR"/signtextjs_plus.json
-mv signtextjs_plus signtextjs_plus.json "$DIR"
+mv signtextjs_plus \
+	signtextjs_plus-bin \
+	signtextjs_plus.json \
+	libjsoncpp.so.0 \
+	"$DIR"

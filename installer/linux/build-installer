@@ -1,24 +1,39 @@
 #!/bin/sh
 set -e
 TOPDIR="$1"
-RUNFILE="$2"
-[ "$TOPDIR" -a "$RUNFILE" ]
+VERSION="$2"
+[ "$TOPDIR" -a "$VERSION" ]
 
 TOPDIR="$(readlink -e "$TOPDIR")"
 
 cd "$TOPDIR"
-[ -e src/linux/signtextjs_plus ]
+[ -e src/linux/signtextjs_plus-bin ]
 
 rm -fr installer.root
 mkdir installer.root
 cd installer.root
 
-install "$TOPDIR"/src/linux/signtextjs_plus .
-install -m 644 "$TOPDIR"/src/signtextjs_plus.json .
-install "$TOPDIR"/installer/linux/installer .
+install "$TOPDIR"/src/linux/signtextjs_plus \
+	"$TOPDIR"/src/linux/signtextjs_plus-bin \
+	"$TOPDIR"/installer/linux/installer \
+	.
+install -m 644 "$TOPDIR"/src/signtextjs_plus.json \
+	/usr/lib/x86_64-linux-gnu/libjsoncpp.so.0 \
+	.
 
-strip signtextjs_plus
+strip signtextjs_plus-bin
 
 cd ..
+RUNFILE=signtextjs_plus-"$VERSION"-x86_64-linux-gnu.run
 makeself --xz --complevel 6 installer.root "$RUNFILE" "signTextJS plus" \
 	./installer
+
+SOURCEDIR=embedded-libs-"$VERSION"-linux-source
+rm -fr "$SOURCEDIR"
+mkdir "$SOURCEDIR"
+cd "$SOURCEDIR"
+
+apt-get -d source libjsoncpp
+
+cd ..
+tar Jcf "$SOURCEDIR".tar.xz "$SOURCEDIR"
