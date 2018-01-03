@@ -53,13 +53,13 @@ const DN_SUBJECT_ISSUER_TIME_COUNTER = 4;
 function getDisplayName(info) {
 	switch (info.mode) {
 	case DN_SUBJECT:
-		return info.subjectName;
+		return info.subject;
 	case DN_SUBJECT_ISSUER:
-		return `${info.subjectName} (${info.issuerName})`;
+		return `${info.subject} (${info.issuer})`;
 	case DN_SUBJECT_ISSUER_TIME:
-		return `${info.subjectName} (${info.issuerName}; ${info.notBefore})`;
+		return `${info.subject} (${info.issuer}; ${info.date})`;
 	}
-	return `${info.subjectName} (${info.issuerName}; ${info.notBefore}) #${info.counter}`;
+	return `${info.subject} (${info.issuer}; ${info.date}) #${info.id}`;
 }
 
 function fillDisplayNames(certs) {
@@ -68,10 +68,10 @@ function fillDisplayNames(certs) {
 	for (let i = 0; i < certs.length; i++) {
 		let cert = certs[i];
 		info[i] = {
-			subjectName: commonOrFullName(cert.subject),
-			issuerName: commonOrFullName(cert.issuer),
-			notBefore: cert.notBefore,
-			counter: i,
+			subject: commonOrFullName(cert.subject),
+			issuer: commonOrFullName(cert.issuer),
+			date: cert.notBefore,
+			id: i,
 			mode: DN_SUBJECT
 		};
 	}
