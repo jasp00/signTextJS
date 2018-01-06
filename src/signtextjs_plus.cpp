@@ -3,6 +3,7 @@
 // License: GPL-3.0+ WITH reinstatement-exception
 
 #include <iostream>
+#include <stdint.h>
 #include <json/json.h>
 #include <nspr/nspr.h>
 #include <nss/cert.h>
@@ -433,6 +434,19 @@ static bool web_extension_protocol(void) {
 			return true;
 	}
 }
+
+#ifdef __MINGW32__
+static char *strndup(const char *s, size_t n) {
+	if (strlen(s) <= n)
+		return strdup(s);
+	char *d = (char *)malloc(n + 1);
+	if (d) {
+		memcpy(d, s, n);
+		d[n] = '\0';
+	}
+	return d;
+}
+#endif
 
 static char *detect_configdir(void) {
 	const char *envvar = getenv("MOZ_CRASHREPORTER_EVENTS_DIRECTORY");
