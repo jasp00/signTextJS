@@ -2,8 +2,8 @@
 // Copyright: 2017 Javier Serrano Polo <javier@jasp.net>
 // License: GPL-3.0+ WITH reinstatement-exception
 
-#include <iostream>
 #include <stdint.h>
+#include <unistd.h>
 #include <json/json.h>
 #include <nspr/nspr.h>
 #include <nss/cert.h>
@@ -27,6 +27,9 @@ static const char ERROR_INTERNAL[] = "error:internalError";
 static const char ERROR_AUTHENTICATION_FAILED[] = "error:authenticationFailed";
 
 static bool s_debug = true;
+
+static FILE *s_stdin;
+static FILE *s_stdout;
 
 static void log(const std::string &s) {
 	if (s_debug)
@@ -182,8 +185,8 @@ static bool get_user_certs(Json::Value &req, Json::Value &res) {
 			if (cert->keyUsagePresent)
 				json_cert["usage"]
 					= key_usage_string(cert->rawKeyUsage);
-
-			json_cert["email"] = cert->emailAddr;
+			if (cert->emailAddr)
+				json_cert["email"] = cert->emailAddr;
 			json_cert["issuer"] = cert->issuerName;
 
 			if (cert->slot)
@@ -369,13 +372,11 @@ cleanup_derCert:
 
 static bool read_request(Json::Value &req, bool &end) {
 	msg_size size;
-	std::cin.read(size.c, 4);
-	end = !std::cin.good();
+	end = fread(size.c, 4, 1, s_stdin) != 1;
 	if (end)
-		return !std::cin.eof() || std::cin.gcount();
+		return ferror(s_stdin);
 	char *buf = new char[size.u + 1];
-	std::cin.read(buf, size.u);
-	bool error = !std::cin.good();
+	bool error = fread(buf, 1, size.u, s_stdin) != size.u;
 	buf[size.u] = '\0';
 
 	if (!error) {
@@ -397,9 +398,11 @@ static bool write_response(Json::Value &res) {
 	msg_size size;
 	size.u = str.length();
 
-	std::cout.write(size.c, 4);
-	std::cout.write(str.c_str(), size.u);
-	return !std::cout.good();
+	if (fwrite(size.c, 4, 1, s_stdout) != 1)
+		return true;
+	if (fwrite(str.c_str(), 1, size.u, s_stdout) != size.u)
+		return true;
+	return fflush(s_stdout);
 }
 
 static bool web_extension_protocol(void) {
@@ -468,7 +471,21 @@ static char *detect_configdir(void) {
 	return strndup(envvar, end - envvar);
 }
 
+static void set_binary_stdio(void) {
+	int in_fd = dup(STDIN_FILENO);
+	int out_fd = dup(STDOUT_FILENO);
+	if (in_fd == -1 || out_fd == -1)
+		exit(EXIT_FAILURE);
+
+	s_stdin = fdopen(in_fd, "rb");
+	s_stdout = fdopen(out_fd, "wb");
+	if (!s_stdin || !s_stdout)
+		exit(EXIT_FAILURE);
+}
+
 int main(void) {
+	set_binary_stdio();
+
 	PR_Init(PR_USER_THREAD, PR_PRIORITY_LOW, 0);
 
 	bool error = false;
@@ -500,5 +517,11 @@ cleanup_configdir:
 cleanup_pr:
 	if (PR_Cleanup() != PR_SUCCESS)
 		error = true;
+
+	if (fclose(s_stdin))
+		error = true;
+	if (fclose(s_stdout))
+		error = true;
+
 	return error? EXIT_FAILURE: EXIT_SUCCESS;
 }
