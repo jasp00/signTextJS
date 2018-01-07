@@ -23,7 +23,8 @@ sed -i "s#$LINUXAPP#$WINAPP#" signtextjs_plus.json
 cp -a \
 	/usr/lib/gcc/x86_64-w64-mingw32/4.8/libgcc_s_sjlj-1.dll \
 	/usr/lib/gcc/x86_64-w64-mingw32/4.8/libstdc++-6.dll \
-	/usr/x86_64-w64-mingw32/bin/libdl.dll \
+	/usr/x86_64-w64-mingw32/lib/jsoncpp.dll \
+	/usr/x86_64-w64-mingw32/lib/libdl.dll \
 	/usr/x86_64-w64-mingw32/lib/libwinpthread-1.dll \
 	/usr/x86_64-w64-mingw32/lib/nspr4.dll \
 	/usr/x86_64-w64-mingw32/lib/nss \
@@ -35,7 +36,7 @@ cp -a \
 	/usr/x86_64-w64-mingw32/lib/sqlite3.dll \
 	.
 
-strip *.exe *.dll
+x86_64-w64-mingw32-strip *.exe *.dll
 
 cd ..
 INSTFILE=signtextjs_plus-"$VERSION"-x86_64-w64-mingw32.exe
