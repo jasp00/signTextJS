@@ -25,6 +25,7 @@ deploy:
   - signtextjs_plus-${TRAVIS_TAG:1}-*.run
   - signtextjs_plus-${TRAVIS_TAG:1}-*.exe
   - embedded-libs-${TRAVIS_TAG:1}-linux-source.tar.xz
+  - embedded-libs-${TRAVIS_TAG:1}-windows-source.tar.xz
   skip_cleanup: true
   on:
     tags: true

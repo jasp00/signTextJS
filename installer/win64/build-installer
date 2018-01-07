@@ -1,0 +1,53 @@
+#!/bin/sh
+set -e
+TOPDIR="$1"
+VERSION="$2"
+[ "$TOPDIR" -a "$VERSION" ]
+
+TOPDIR="$(readlink -e "$TOPDIR")"
+
+cd "$TOPDIR"
+[ -e src/win64/signtextjs_plus.exe ]
+
+rm -fr installer.root
+mkdir installer.root
+cd installer.root
+
+install "$TOPDIR"/src/win64/signtextjs_plus.exe .
+install -m 644 "$TOPDIR"/src/signtextjs_plus.json .
+
+LINUXAPP=/usr/lib/mozilla/native-messaging-hosts/signtextjs_plus
+WINAPP=signtextjs_plus.exe
+sed -i "s#$LINUXAPP#$WINAPP#" signtextjs_plus.json
+
+cp -a \
+	/usr/lib/gcc/x86_64-w64-mingw32/4.8/libgcc_s_sjlj-1.dll \
+	/usr/lib/gcc/x86_64-w64-mingw32/4.8/libstdc++-6.dll \
+	/usr/x86_64-w64-mingw32/bin/libdl.dll \
+	/usr/x86_64-w64-mingw32/lib/libwinpthread-1.dll \
+	/usr/x86_64-w64-mingw32/lib/nspr4.dll \
+	/usr/x86_64-w64-mingw32/lib/nss \
+	/usr/x86_64-w64-mingw32/lib/nss3.dll \
+	/usr/x86_64-w64-mingw32/lib/nssutil3.dll \
+	/usr/x86_64-w64-mingw32/lib/plc4.dll \
+	/usr/x86_64-w64-mingw32/lib/plds4.dll \
+	/usr/x86_64-w64-mingw32/lib/smime3.dll \
+	/usr/x86_64-w64-mingw32/lib/sqlite3.dll \
+	.
+
+strip *.exe *.dll
+
+cd ..
+INSTFILE=signtextjs_plus-"$VERSION"-x86_64-w64-mingw32.exe
+makensis -NOCD "-XOutFile $INSTFILE" installer/win64/script.nsi
+
+SOURCEDIR=embedded-libs-"$VERSION"-windows-source
+rm -fr "$SOURCEDIR"
+mkdir "$SOURCEDIR"
+cd "$SOURCEDIR"
+
+apt-get -d source dlfcn-win32 gcc-mingw-w64 libjsoncpp-mingw-w64 mingw-w64 \
+	nspr-mingw-w64 nss-mingw-w64 sqlite3-mingw-w64
+
+cd ..
+tar Jcf "$SOURCEDIR".tar.xz "$SOURCEDIR"
