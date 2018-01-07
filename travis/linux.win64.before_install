@@ -1,0 +1,2 @@
+#!/bin/sh
+"${TRAVIS_BUILD_DIR}/travis/linux.win32.before_install"

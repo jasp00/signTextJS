@@ -1,0 +1,6 @@
+#!/bin/sh
+set -e
+
+sudo apt-get install -y nsis
+
+installer/win64/build-installer . "${TRAVIS_TAG#?}"

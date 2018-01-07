@@ -1,0 +1,5 @@
+#!/bin/sh
+set -e
+
+sudo add-apt-repository ppa:jasp00/mingw-w64-libs -y
+sudo apt-get update -qq
