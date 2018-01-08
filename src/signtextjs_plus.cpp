@@ -2,6 +2,7 @@
 // Copyright: 2017 Javier Serrano Polo <javier@jasp.net>
 // License: GPL-3.0+ WITH reinstatement-exception
 
+#include <iostream>
 #include <stdint.h>
 #include <unistd.h>
 #include <json/json.h>

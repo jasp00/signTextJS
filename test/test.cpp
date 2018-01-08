@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <iostream>
 #include <stdint.h>
 #include <unistd.h>
 #include <json/json.h>
