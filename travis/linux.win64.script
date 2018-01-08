@@ -3,3 +3,7 @@ set -e
 
 cd src/win64
 make
+
+cd ../../test/win64
+make
+./runtest

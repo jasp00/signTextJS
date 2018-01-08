@@ -3,3 +3,7 @@ set -e
 
 cd src/linux
 make
+
+cd ../../test/linux
+make
+./runtest
