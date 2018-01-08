@@ -2,12 +2,11 @@ language: cpp
 compiler: gcc
 dist: trusty
 sudo: required
-#matrix:
-#  include:
+matrix:
+  include:
 #  - env: TARGET_OS=win32
 #  - env: TARGET_OS=win64
-#  - os: osx
-#    osx_image: xcode8.2
+  - os: osx
 before_install:
 - "${TRAVIS_BUILD_DIR}/travis/${TRAVIS_OS_NAME}.${TARGET_OS}.before_install"
 install:
@@ -24,6 +23,7 @@ deploy:
   file:
   - signtextjs_plus-${TRAVIS_TAG:1}-*.run
   - signtextjs_plus-${TRAVIS_TAG:1}-*.exe
+  - signtextjs_plus-${TRAVIS_TAG:1}-*.dmg
   - embedded-libs-${TRAVIS_TAG:1}-linux-source.tar.xz
   - embedded-libs-${TRAVIS_TAG:1}-windows-source.tar.xz
   skip_cleanup: true

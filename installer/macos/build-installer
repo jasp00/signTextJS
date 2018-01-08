@@ -1,0 +1,25 @@
+#!/bin/sh
+set -e
+TOPDIR="$1"
+VERSION="$2"
+[ "$TOPDIR" -a "$VERSION" ]
+
+TOPDIR="$(readlink -e "$TOPDIR")"
+
+cd "$TOPDIR"
+[ -e src/macos/signtextjs_plus ]
+
+rm -fr installer.root
+mkdir installer.root
+cd installer.root
+
+install "$TOPDIR"/src/macos/signtextjs_plus .
+install -m 644 "$TOPDIR"/src/signtextjs_plus.json .
+
+LINUXDIR=/usr/lib/mozilla/native-messaging-hosts
+MACOSDIR="/Library/Application Support/Mozilla/NativeMessagingHosts"
+sed -i "s#$LINUXDIR#$MACOSDIR#" signtextjs_plus.json
+
+cd ..
+DMGFILE=signtextjs_plus-"$VERSION"-macos.dmg
+appdmg installer/macos/package.json "$DMGFILE"

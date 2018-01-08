@@ -16,7 +16,7 @@ FunctionEnd
 
 !insertmacro MUI_LANGUAGE "English"
 
-Name "signTextJS plus"
+Name "signTextJS plus Windows 64 back end"
 InstallDir "$PROGRAMFILES64\signtextjs_plus"
 ShowInstDetails show
 

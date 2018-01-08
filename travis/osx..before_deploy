@@ -1,0 +1,6 @@
+#!/bin/sh
+set -e
+
+sudo npm install -g appdmg
+
+installer/macos/build-installer . "${TRAVIS_TAG#?}"

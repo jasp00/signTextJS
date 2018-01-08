@@ -1,0 +1,10 @@
+#!/bin/sh
+set -e
+
+if [ ! -e nssdb ]
+then
+	../setup-nssdb
+fi
+
+MOZ_CRASHREPORTER_EVENTS_DIRECTORY="$PWD/nssdb/crashes/events" \
+	./test ../../src/macos/signtextjs_plus

@@ -25,8 +25,8 @@ strip signtextjs_plus-bin
 
 cd ..
 RUNFILE=signtextjs_plus-"$VERSION"-x86_64-linux-gnu.run
-makeself --xz --complevel 6 installer.root "$RUNFILE" "signTextJS plus" \
-	./installer
+makeself --xz --complevel 6 installer.root "$RUNFILE" \
+	"signTextJS plus Linux back end" ./installer
 
 SOURCEDIR=embedded-libs-"$VERSION"-linux-source
 rm -fr "$SOURCEDIR"
