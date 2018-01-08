@@ -1,0 +1,14 @@
+#!/bin/sh
+set -e
+
+if [ ! -e nssdb ]
+then
+	../setup-nssdb
+fi
+
+../../installer/win64/copy-dlls
+
+WINPWD="$(echo $PWD | sed -e 's#/#\\#g')"
+
+MOZ_CRASHREPORTER_EVENTS_DIRECTORY="z:$WINPWD\\nssdb\\crashes\\events" \
+	./test ../../src/win64/signtextjs_plus.exe

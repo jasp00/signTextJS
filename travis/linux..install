@@ -1,2 +1,5 @@
 #!/bin/sh
-sudo apt-get install -y libjsoncpp-dev libnss3-dev
+sudo apt-get install -y \
+	libjsoncpp-dev \
+	libnss3-dev \
+	libnss3-tools

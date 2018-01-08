@@ -1,0 +1,16 @@
+#!/bin/sh
+cp -a \
+	/usr/lib/gcc/x86_64-w64-mingw32/4.8/libgcc_s_sjlj-1.dll \
+	/usr/lib/gcc/x86_64-w64-mingw32/4.8/libstdc++-6.dll \
+	/usr/x86_64-w64-mingw32/lib/jsoncpp.dll \
+	/usr/x86_64-w64-mingw32/lib/libdl.dll \
+	/usr/x86_64-w64-mingw32/lib/libwinpthread-1.dll \
+	/usr/x86_64-w64-mingw32/lib/nspr4.dll \
+	/usr/x86_64-w64-mingw32/lib/nss \
+	/usr/x86_64-w64-mingw32/lib/nss3.dll \
+	/usr/x86_64-w64-mingw32/lib/nssutil3.dll \
+	/usr/x86_64-w64-mingw32/lib/plc4.dll \
+	/usr/x86_64-w64-mingw32/lib/plds4.dll \
+	/usr/x86_64-w64-mingw32/lib/smime3.dll \
+	/usr/x86_64-w64-mingw32/lib/sqlite3.dll \
+	.

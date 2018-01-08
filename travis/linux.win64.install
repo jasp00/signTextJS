@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
-sudo apt-get install -y dlfcn-win32-mingw-w64-x86-64 g++-mingw-w64-x86-64 \
-	libjsoncpp-mingw-w64-x86-64 nspr-mingw-w64-x86-64 nss-mingw-w64-x86-64 \
-	sqlite3-mingw-w64-x86-64
+sudo apt-get install -y \
+	dlfcn-win32-mingw-w64-x86-64 \
+	g++-mingw-w64-x86-64 \
+	libjsoncpp-dev \
+	libjsoncpp-mingw-w64-x86-64 \
+	libnss3-tools \
+	nspr-mingw-w64-x86-64 \
+	nss-mingw-w64-x86-64 \
+	sqlite3-mingw-w64-x86-64 \
+	wine1.6

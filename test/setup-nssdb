@@ -1,0 +1,14 @@
+#!/bin/sh
+set -e
+
+TFILE=
+cleanup() {
+	rm -f "$TFILE"
+}
+trap cleanup EXIT
+TFILE=$(mktemp)
+
+mkdir nssdb
+certutil -N -d nssdb -f /dev/null
+head -c 20 /dev/urandom > "$TFILE"
+certutil -S -d nssdb -n Test -s "CN=Test certificate" -t ,PTu, -x -z "$TFILE"
