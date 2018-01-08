@@ -3,7 +3,7 @@ set -e
 
 if [ ! -e nssdb ]
 then
-	../setup-nssdb
+	PATH="$PATH${PATH:+:}/usr/local/opt/nss/bin" ../setup-nssdb
 fi
 
 MOZ_CRASHREPORTER_EVENTS_DIRECTORY="$PWD/nssdb/crashes/events" \
