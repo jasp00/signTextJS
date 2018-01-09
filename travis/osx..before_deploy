@@ -1,8 +1,6 @@
 #!/bin/sh
 set -e
 
-brew install coreutils
-
 sudo npm install -g appdmg
 
 installer/macos/build-installer . "${TRAVIS_TAG#?}"
