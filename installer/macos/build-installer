@@ -4,7 +4,7 @@ TOPDIR="$1"
 VERSION="$2"
 [ "$TOPDIR" -a "$VERSION" ]
 
-TOPDIR="$(readlink -e "$TOPDIR")"
+TOPDIR="$(greadlink -e "$TOPDIR")"
 
 cd "$TOPDIR"
 [ -e src/macos/signtextjs_plus ]
