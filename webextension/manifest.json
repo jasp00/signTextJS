@@ -26,5 +26,5 @@
     "page": "options/options.html"
   },
   "permissions": ["nativeMessaging", "storage"],
-  "version": "0.9.0"
+  "version": "0.9.1"
 }
