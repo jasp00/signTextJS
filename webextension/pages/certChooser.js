@@ -61,7 +61,7 @@ function doCancel() {
 browser.runtime.sendMessage({
 	event: "getCertChooserInfo"
 }).then(
-	(response) => {
+	response => {
 		fillWithInfo(response);
 		displayCertDetails();
 		document.getElementById("certDisplayNames")
@@ -74,14 +74,12 @@ browser.runtime.sendMessage({
 	}
 );
 
-function keyboardListener(e) {
+document.addEventListener("keydown", e => {
 	if (e.keyCode === 13) // Enter
 		doOK();
 	else if (e.keyCode === 27) // Escape
 		doCancel();
-}
-
-document.addEventListener("keydown", keyboardListener);
+});
 
 document.getElementById("title").textContent = _("title");
 document.getElementById("caption").textContent = _("caption");
