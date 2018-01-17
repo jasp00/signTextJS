@@ -2,38 +2,12 @@
 // Copyright: 2017 Javier Serrano Polo <javier@jasp.net>
 // License: GPL-3.0+ WITH reinstatement-exception
 
-function signTextVA(signTextArgs, sync) {
-	let args = [];
-	for (let i = 0; i < signTextArgs.length; i++)
-		args[i] = signTextArgs[i];
-	let detail = {
-		arguments: args,
-		data: stringToBytesToBase64(args[0]),
-		hostname: location.hostname,
-		protocol: location.protocol,
-		sync: sync
-	};
-	return browser.runtime.sendMessage({
-		event: "signText",
-		detail: detail
-	});
-}
-
-function signText(text, options) {
+function signText(text, options, ...CAs) {
 	let result = null;
-	signTextVA(arguments, true).then(
-		function(response) {
-			result = response.result;
-			if (result == null) {
-				result = ERROR_INTERNAL;
-				log("No result");
-			}
-		},
-		function(error) {
-			result = ERROR_INTERNAL;
-			log(error);
-		}
-	);
+
+	signTextAsync(text, options, r => {
+		result = r;
+	}, ...CAs);
 
 	if (result == null)
 		alert(
@@ -56,9 +30,21 @@ Closing this window too soon will cancel the operation.`
 	return result;
 }
 
-function signTextAsync(text, options, resolve) {
-	signTextVA(arguments, false).then(
-		(response) => {
+function signTextAsync(text, options, resolve, ...CAs) {
+	let detail = {
+		CAs: CAs,
+		data: stringToBytesToBase64(text),
+		hostname: location.hostname,
+		options: options,
+		protocol: location.protocol,
+		text: text
+	};
+
+	browser.runtime.sendMessage({
+		event: "signText",
+		detail: detail
+	}).then(
+		response => {
 			let result = response.result;
 			if (result == null) {
 				result = ERROR_INTERNAL;
@@ -66,12 +52,12 @@ function signTextAsync(text, options, resolve) {
 			}
 			resolve(result);
 		},
-		(error) => {
+		error => {
 			log(error);
 			resolve(ERROR_INTERNAL);
 		}
 	);
 }
 
-exportFunction(signText, window.crypto, {defineAs:'signText'});
-exportFunction(signTextAsync, window.crypto, {defineAs:'signTextAsync'});
+exportFunction(signText, window.crypto, {defineAs: "signText"});
+exportFunction(signTextAsync, window.crypto, {defineAs: "signTextAsync"});

@@ -149,7 +149,7 @@ function signTextCall(request, sender, sendResponse) {
 	});
 
 	let autoSign = false;
-	if (hasOption(request.detail.arguments[1], "auto")) {
+	if (hasOption(request.detail.options, "auto")) {
 		let allowedSchemes = ["file"];
 		for (let scheme of allowedSchemes) {
 			if (scheme + ":" == request.detail.protocol) {
@@ -187,17 +187,15 @@ function signTextCall(request, sender, sendResponse) {
 			let message = {
 				command: "get_certificates"
 			};
-			let args = request.detail.arguments;
 
-			let startCA_idx = request.detail.sync? 2: 3;
-			let CAs = [];
-			for (let i = startCA_idx; i < args.length; i++)
-				CAs[i - startCA_idx] = args[i];
+			let CAs = request.detail.CAs;
 			if (CAs.length)
 				message.CAs = CAs;
 
-			if (hasOption(args[1], "non-repudiation"))
+			if (hasOption(request.detail.options,
+				"non-repudiation"))
 				message.non_repudiation = true;
+
 			port.postMessage(message);
 		}
 		else if (response.certificates) {
@@ -213,7 +211,7 @@ function signTextCall(request, sender, sendResponse) {
 				});
 			}
 			else
-				selectCert(certs, request.detail.arguments[0],
+				selectCert(certs, request.detail.text,
 					request.detail.hostname,
 					request.detail.data, port,
 					sendResponse);
