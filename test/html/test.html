@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+ <title>crypto.signText test</title>
+ <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+ <script type="application/javascript">
+function sign(f) {
+	let CAs = [];
+	if (f.CA.value)
+		CAs[0] = f.CA.value;
+	f.result.value = window.crypto.signText(f.text.value, f.options.value,
+		...CAs);
+}
+
+function signAsync(f) {
+	let CAs = [];
+	if (f.CA.value)
+		CAs[0] = f.CA.value;
+	window.crypto.signTextAsync(f.text.value, f.options.value, r => {
+		f.result.value = r;
+	}, ...CAs);
+}
+ </script>
+</head>
+<body>
+ <form action="">
+  <div>Text to sign:<br>
+   <textarea name="text" rows="5" cols="80">Hello, world!</textarea>
+  </div>
+  <div>Options: <input type="text" name="options" value="ask"></div>
+  <div>CA: <input type="text" name="CA"></div>
+  <div>Result:<br>
+   <textarea name="result" rows="5" cols="80" readonly="readonly"></textarea>
+  </div>
+  <div>
+   <button type="button" onclick="sign(this.form)">signText</button>
+   <button type="button" onclick="signAsync(this.form)">signTextAsync</button>
+  </div>
+ </form>
+</body>
+</html>
