@@ -106,15 +106,35 @@ static void remove_crlf(char *s) {
 }
 
 static bool get_user_certs(Json::Value &req, Json::Value &res) {
-	CERTCertDBHandle *handle = CERT_GetDefaultCertDB();
-	if (!handle)
-		return true;
-
-	CERTCertList *cert_list = CERT_FindUserCertsByUsage(handle,
-		certUsageEmailSigner, PR_FALSE, PR_TRUE, NULL);
+	CERTCertList *cert_list = PK11_ListCerts(PK11CertListUser, NULL);
 	if (!cert_list) {
 		error_noMatchingCert(res);
 		return false;
+	}
+
+	bool error = false;
+
+	if (CERT_FilterCertListByUsage(cert_list, certUsageEmailSigner,
+		PR_FALSE) != SECSuccess) {
+		error = true;
+		goto cleanup_list;
+	}
+	{
+
+	PRTime now = PR_Now();
+	for (CERTCertListNode *node = CERT_LIST_HEAD(cert_list);
+		!CERT_LIST_END(node, cert_list);) {
+		switch (CERT_CheckCertValidTimes(node->cert, now, PR_FALSE)) {
+		case secCertTimeValid:
+		case secCertTimeUndetermined:
+			node = CERT_LIST_NEXT(node);
+			break;
+		case secCertTimeExpired:
+		case secCertTimeNotValidYet:
+			CERTCertListNode *removed = node;
+			node = CERT_LIST_NEXT(removed);
+			CERT_RemoveCertListNode(removed);
+		}
 	}
 
 	bool non_repudiation = req.get("non_repudiation", false).asBool();
@@ -130,8 +150,6 @@ static bool get_user_certs(Json::Value &req, Json::Value &res) {
 			}
 		}
 	}
-
-	bool error = false;
 
 	if (req.isMember("CAs")) {
 		Json::Value &CAs = req["CAs"];
@@ -206,9 +224,29 @@ static bool get_user_certs(Json::Value &req, Json::Value &res) {
 		}
 	}
 
+	}
 cleanup_list:
 	CERT_DestroyCertList(cert_list);
 	return error;
+}
+
+static CERTCertificate *find_cert_by_derCert(SECItem *derCert) {
+	CERTCertList *cert_list = PK11_ListCerts(PK11CertListUser, NULL);
+	if (!cert_list)
+		return NULL;
+
+	CERTCertificate *result = NULL;
+	for (CERTCertListNode *node = CERT_LIST_HEAD(cert_list);
+		!CERT_LIST_END(node, cert_list); node = CERT_LIST_NEXT(node)) {
+		CERTCertificate *cert = node->cert;
+		if (SECITEM_ItemsAreEqual(derCert, &cert->derCert)) {
+			result = CERT_DupCertificate(cert);
+			break;
+		}
+	}
+
+	CERT_DestroyCertList(cert_list);
+	return result;
 }
 
 static void outputfn(void *arg, const char *buf, unsigned long len) {
@@ -233,22 +271,13 @@ static bool sign_text(Json::Value &req, Json::Value &res) {
 
 	bool error = false;
 
-	CERTCertDBHandle *handle = CERT_GetDefaultCertDB();
-	if (!handle) {
-		log("CERT_GetDefaultCertDB failed");
-		log_PR_error();
+	CERTCertificate *cert = find_cert_by_derCert(derCert);
+	if (!cert) {
+		log("find_cert_by_derCert failed");
 		error = true;
 		goto cleanup_derCert;
 	}
 	{
-
-	CERTCertificate *cert = CERT_FindCertByDERCert(handle, derCert);
-	if (!cert) {
-		log("CERT_FindCertByDERCert failed");
-		log_PR_error();
-		error = true;
-		goto cleanup_derCert;
-	}
 
 	PK11SlotList *list = PK11_GetAllSlotsForCert(cert, NULL);
 	if (!list) {
