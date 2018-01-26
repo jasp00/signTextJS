@@ -37,11 +37,25 @@ function slotFromPort(port) {
 	return -1;
 }
 
+function noZeroMicroseconds(certs) {
+	for (let cert of certs) {
+		cert.notBefore = cert.notBefore.replace(",000000", "");
+		cert.notAfter = cert.notAfter.replace(",000000", "");
+	}
+}
+
 function commonOrFullName(s) {
-	let token = s.match(/CN=[^,]+/)
-	if (token == null)
-		return s;
-	return token[0].substr(3);
+	let token = s.match(/CN="[^"]*"/)
+	if (token) {
+		let name = token[0].slice(4, -1);
+		if (name == "")
+			return s;
+		return name;
+	}
+	token = s.match(/CN=[^,]+/)
+	if (token)
+		return token[0].slice(3);
+	return s;
 }
 
 const DN_NONE = 0;
@@ -200,6 +214,7 @@ function signTextCall(request, sender, sendResponse) {
 		}
 		else if (response.certificates) {
 			let certs = response.certificates;
+			noZeroMicroseconds(certs);
 			fillDisplayNames(certs);
 
 			if (autoSign) {
