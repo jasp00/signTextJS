@@ -38,7 +38,9 @@ ${_("issuer")} ${cert.issuer}
 ${_("token")} ${cert.token}`;
 }
 
-function doOK() {
+function doOK(event) {
+	if (event)
+		event.preventDefault();
 	let selection = document.getElementById("certDisplayNames");
 	let detail = {
 		certificate: certArray[selection.value],
@@ -48,7 +50,7 @@ function doOK() {
 		event: "certChooserResult",
 		detail: detail
 	}).then(
-		(response) => {
+		response => {
 			window.close();
 		}
 	);
@@ -64,10 +66,10 @@ browser.runtime.sendMessage({
 	response => {
 		fillWithInfo(response);
 		displayCertDetails();
+		document.getElementsByTagName("form")[0]
+			.addEventListener("submit", doOK);
 		document.getElementById("certDisplayNames")
 			.addEventListener("change", displayCertDetails);
-		document.getElementById("btnOK")
-			.addEventListener("click", doOK);
 		document.getElementById("btnCancel")
 			.addEventListener("click", doCancel);
 		document.getElementById("certPassword").focus();
