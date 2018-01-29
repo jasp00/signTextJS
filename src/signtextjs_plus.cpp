@@ -481,16 +481,19 @@ static char *strndup(const char *s, size_t n) {
 }
 #endif
 
+#ifdef __MINGW32__
+#define DIR_SEPARATOR "\\"
+#else
+#define DIR_SEPARATOR "/"
+#endif
+
 static char *detect_configdir(void) {
 	const char *envvar = getenv("MOZ_CRASHREPORTER_EVENTS_DIRECTORY");
 	if (!envvar)
 		return NULL;
 
-#ifdef __MINGW32__
-	static const char SUBDIRS[] = "\\crashes\\events";
-#else
-	static const char SUBDIRS[] = "/crashes/events";
-#endif
+	static const char SUBDIRS[] = DIR_SEPARATOR "crashes" DIR_SEPARATOR \
+		"events";
 
 	const char *end = strstr(envvar, SUBDIRS);
 	if (!end)
@@ -526,13 +529,21 @@ int main(void) {
 		error = true;
 		goto cleanup_pr;
 	}
+	{
 
-	if (NSS_Init(configdir) != SECSuccess) {
+	std::string db_file = configdir;
+	db_file += DIR_SEPARATOR "cert9.db";
+
+	std::string config_url = access(db_file.c_str(), F_OK)? "dbm:": "sql:";
+	config_url += configdir;
+
+	free(configdir);
+
+	if (NSS_Init(config_url.c_str()) != SECSuccess) {
 		log("NSS_Init failed");
 		error = true;
-		goto cleanup_configdir;
+		goto cleanup_pr;
 	}
-	{
 
 	if (web_extension_protocol())
 		error = true;
@@ -541,9 +552,6 @@ int main(void) {
 		error = true;
 
 	}
-cleanup_configdir:
-	free(configdir);
-
 cleanup_pr:
 	if (PR_Cleanup() != PR_SUCCESS)
 		error = true;
