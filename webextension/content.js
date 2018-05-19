@@ -12,6 +12,7 @@ function signText(text, options, ...CAs) {
 	if (result == null)
 		alert(
 `signText running...
+You see this message because of your browser's limitations.
 Please consider using signTextAsync.
 
 Close this window when signing has finished.`
