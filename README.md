@@ -5,10 +5,19 @@ signTextJS plus
 
 Why signTextJS plus?
 --------------------
-The goal of the original signTextJS is to provide a stop-gap measure for users
-while sites migrate away from `window.crypto.signText`. signTextJS plus is meant
-to last longer and enhances the add-on with features such as automatic
-signatures and filtering by certificate authority.
+`window.crypto.signText` is a digital signature technology that has been
+available to Firefox users for 20 years. It is used by government and banking
+sites. It can be used to participate in plebiscites.
+
+The `window.crypto` interfaces were removed from Firefox 35 and later releases.
+An add-on was developed as a stop-gap measure for users; that add-on is
+deprecated and does not work since Firefox 57.
+
+signTextJS plus takes over this technology. It restores automatic signatures and
+filtering by certificate authority, and provides these enhancements:
+* An asynchronous mode.
+* Filtering by non-repudiation.
+* SHA-256 support.
 
 How-to
 ------
