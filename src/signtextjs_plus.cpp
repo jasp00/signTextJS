@@ -29,6 +29,13 @@ static const char ERROR_AUTHENTICATION_FAILED[] = "error:authenticationFailed";
 
 static bool s_debug = true;
 
+typedef struct {
+	const char *name;
+	unsigned int len;
+	HASH_HashType type;
+	SECOidTag digestalg;
+} hash_algo;
+
 static FILE *s_stdin;
 static FILE *s_stdout;
 
@@ -230,6 +237,20 @@ cleanup_list:
 	return error;
 }
 
+static const hash_algo *get_hash_algo(const char *name) {
+	static hash_algo algo[] = {
+		{ "sha-1", SHA1_LENGTH, HASH_AlgSHA1, SEC_OID_SHA1 },
+		{ "sha-256", SHA256_LENGTH, HASH_AlgSHA256, SEC_OID_SHA256 }
+	};
+
+	for (unsigned int i = 0; i < sizeof algo / sizeof algo[0]; i++) {
+		if (!strcmp(name, algo[i].name))
+			return &algo[i];
+	}
+
+	return NULL;
+}
+
 static CERTCertificate *find_cert_by_derCert(SECItem *derCert) {
 	CERTCertList *cert_list = PK11_ListCerts(PK11CertListUser, NULL);
 	if (!cert_list)
@@ -259,7 +280,13 @@ static void outputfn(void *arg, const char *buf, unsigned long len) {
 }
 
 static bool sign_text(Json::Value &req, Json::Value &res) {
-// hash algo = SHA1;
+	const hash_algo *algo
+		= get_hash_algo(req.get("hash", "sha-1").asCString());
+	if (!algo) {
+		log("Unsupported hash algorithm");
+		return true;
+	}
+
 	std::string cert_b64 = req["certificate"].asString();
 
 	SECItem *derCert = NSSBase64_DecodeBuffer(NULL, NULL, cert_b64.c_str(),
@@ -326,11 +353,9 @@ static bool sign_text(Json::Value &req, Json::Value &res) {
 	}
 
 	unsigned char digest_buf[HASH_LENGTH_MAX];
-//sha1 is default
-//HASH_AlgSHA256
 	SECItem digest = {.type = siBuffer, .data = digest_buf,
-		.len = SHA1_LENGTH};
-	if (HASH_HashBuf(HASH_AlgSHA1, digest.data, data->data, data->len)
+		.len = algo->len};
+	if (HASH_HashBuf(algo->type, digest.data, data->data, data->len)
 		!= SECSuccess)
 		error = true;
 
@@ -339,9 +364,9 @@ static bool sign_text(Json::Value &req, Json::Value &res) {
 	if (error)
 		goto cleanup_list;
 
-//SEC_OID_SHA256;
 	SEC_PKCS7ContentInfo *cinfo = SEC_PKCS7CreateSignedData(cert,
-		certUsageEmailSigner, NULL, SEC_OID_SHA1, &digest, NULL, NULL);
+		certUsageEmailSigner, NULL, algo->digestalg, &digest, NULL,
+		NULL);
 	if (!cinfo) {
 		log("SEC_PKCS7CreateSignedData failed");
 		log_PR_error();

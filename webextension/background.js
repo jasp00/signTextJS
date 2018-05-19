@@ -130,7 +130,7 @@ function openCertChooser(slot) {
 	);
 }
 
-function selectCert(certs, text, hostname, data, port, sendResponse) {
+function selectCert(certs, text, hostname, data, options, port, sendResponse) {
 	let info = {
 		certs: certs,
 		text: text,
@@ -140,10 +140,16 @@ function selectCert(certs, text, hostname, data, port, sendResponse) {
 	let slot = newChooserSlot();
 	chooserSlots[slot].data = data;
 	chooserSlots[slot].info = info;
+	chooserSlots[slot].options = options;
 	chooserSlots[slot].port = port;
 	chooserSlots[slot].sendResponse = sendResponse;
 
 	openCertChooser(slot);
+}
+
+function setHashAlgo(message, options) {
+	if (hasOption(options, "sha-256"))
+		message.hash = "sha-256";
 }
 
 function signTextCall(request, sender, sendResponse) {
@@ -219,16 +225,21 @@ function signTextCall(request, sender, sendResponse) {
 
 			if (autoSign) {
 				log(`Using '${certs[0].displayName}'`);
-				port.postMessage({
+
+				let message = {
 					command: "sign_data",
 					certificate: certs[0].der,
 					data: request.detail.data
-				});
+				};
+				setHashAlgo(message, request.detail.options);
+
+				port.postMessage(message);
 			}
 			else
 				selectCert(certs, request.detail.text,
 					request.detail.hostname,
-					request.detail.data, port,
+					request.detail.data,
+					request.detail.options, port,
 					sendResponse);
 		}
 	});
@@ -264,12 +275,16 @@ function tabRemoved(tabId, removeInfo) {
 	if (chooserSlots[slot].selected) {
 		let cert = chooserSlots[slot].info.certificate;
 		log(`Using '${cert.displayName}'`);
-		port.postMessage({
+
+		let message = {
 			command: "sign_data",
 			certificate: cert.der,
 			data: chooserSlots[slot].data,
 			password: chooserSlots[slot].password
-		});
+		};
+		setHashAlgo(message, chooserSlots[slot].options);
+
+		port.postMessage(message);
 	}
 	else {
 		port.disconnect();
