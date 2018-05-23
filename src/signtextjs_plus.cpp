@@ -16,6 +16,11 @@
 #include <nss/sechash.h>
 #include <nss/secpkcs7.h>
 
+#ifdef __MINGW32__
+#include <fcntl.h>
+#include <io.h>
+#endif
+
 #include "config.h"
 
 union msg_size {
@@ -35,9 +40,6 @@ typedef struct {
 	HASH_HashType type;
 	SECOidTag digestalg;
 } hash_algo;
-
-static FILE *s_stdin;
-static FILE *s_stdout;
 
 static void log(const std::string &s) {
 	if (s_debug)
@@ -427,11 +429,11 @@ cleanup_derCert:
 
 static bool read_request(Json::Value &req, bool &end) {
 	msg_size size;
-	end = fread(size.c, 4, 1, s_stdin) != 1;
+	end = fread(size.c, 4, 1, stdin) != 1;
 	if (end)
-		return ferror(s_stdin);
+		return ferror(stdin);
 	char *buf = new char[size.u + 1];
-	bool error = fread(buf, 1, size.u, s_stdin) != size.u;
+	bool error = fread(buf, 1, size.u, stdin) != size.u;
 	buf[size.u] = '\0';
 
 	if (!error) {
@@ -453,11 +455,11 @@ static bool write_response(Json::Value &res) {
 	msg_size size;
 	size.u = str.length();
 
-	if (fwrite(size.c, 4, 1, s_stdout) != 1)
+	if (fwrite(size.c, 4, 1, stdout) != 1)
 		return true;
-	if (fwrite(str.c_str(), 1, size.u, s_stdout) != size.u)
+	if (fwrite(str.c_str(), 1, size.u, stdout) != size.u)
 		return true;
-	return fflush(s_stdout);
+	return fflush(stdout);
 }
 
 static bool web_extension_protocol(void) {
@@ -530,15 +532,11 @@ static char *detect_configdir(void) {
 }
 
 static void set_binary_stdio(void) {
-	int in_fd = dup(STDIN_FILENO);
-	int out_fd = dup(STDOUT_FILENO);
-	if (in_fd == -1 || out_fd == -1)
+#ifdef __MINGW32__
+	if (_setmode(fileno(stdin), _O_BINARY) == -1
+		|| _setmode(fileno(stdout), _O_BINARY) == -1)
 		exit(EXIT_FAILURE);
-
-	s_stdin = fdopen(in_fd, "rb");
-	s_stdout = fdopen(out_fd, "wb");
-	if (!s_stdin || !s_stdout)
-		exit(EXIT_FAILURE);
+#endif
 }
 
 int main(void) {
@@ -579,11 +577,6 @@ int main(void) {
 	}
 cleanup_pr:
 	if (PR_Cleanup() != PR_SUCCESS)
-		error = true;
-
-	if (fclose(s_stdin))
-		error = true;
-	if (fclose(s_stdout))
 		error = true;
 
 	return error? EXIT_FAILURE: EXIT_SUCCESS;
