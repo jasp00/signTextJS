@@ -24,7 +24,7 @@ How-to
 This is still work in progress. The Firefox extension depends on a native back
 end which needs deployment. You can download the installer at the
 [releases](https://github.com/jasp00/signTextJS/releases) page. The add-on works
-on Linux and it is expected to work on Windows 64 and macOS too.
+on Linux and Windows 64, and it is expected to work on macOS too.
 
 For system-wide availability:
 * On Linux, run the installer as root.
