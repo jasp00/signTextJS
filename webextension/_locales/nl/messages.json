@@ -1,0 +1,56 @@
+{
+  "title": {
+    "message": "Verzoek tot tekstondertekening"
+  },
+  "headline": {
+    "message": "De website ‘$hostname$’ heeft u gevraagd het volgende tekstbericht te ondertekenen:",
+    "placeholders": {
+      "hostname": {
+        "content": "$1"
+      }
+    }
+  },
+  "caption": {
+    "message": "Ondertekeningscertificaat"
+  },
+  "confirm": {
+    "message": "Voer het hoofdwachtwoord in om te bevestigen dat u akkoord gaat met het ondertekenen van dit tekstbericht via uw geselecteerde certificaat:"
+  },
+  "cancel": {
+    "message": "Annuleren"
+  },
+  "ok": {
+    "message": "OK"
+  },
+  "subject": {
+    "message": "Uitgegeven aan:"
+  },
+  "serial": {
+    "message": "Serienummer:"
+  },
+  "valid_from": {
+    "message": "Geldig van"
+  },
+  "to": {
+    "message": "tot"
+  },
+  "key_usage": {
+    "message": "Certificaatsleutelgebruik:"
+  },
+  "email": {
+    "message": "E-mailadres:"
+  },
+  "issuer": {
+    "message": "Uitgegeven door:"
+  },
+  "token": {
+    "message": "Opgeslagen in:"
+  },
+
+  "debug_title": {
+    "message": "Debug-uitvoer naar console"
+  },
+  "debug_description": {
+    "message": "Stuurt berichtregistratie naar de console."
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "title": {
+    "message": "Anforderung zur Text-Signierung"
+  },
+  "headline": {
+    "message": "Die Seite '$hostname$' hat angefordert, dass Sie den folgenden Text signieren:",
+    "placeholders": {
+      "hostname": {
+        "content": "$1"
+      }
+    }
+  },
+  "caption": {
+    "message": "Zertifikat zur Signierung"
+  },
+  "confirm": {
+    "message": "Zur Bestätigung, dass Sie den Text mit Ihrem ausgewählten Zertifikat signieren möchten, geben Sie das Master-Passwort ein:"
+  },
+  "cancel": {
+    "message": "Abbrechen"
+  },
+  "ok": {
+    "message": "OK"
+  },
+  "subject": {
+    "message": "Ausgestellt für:"
+  },
+  "serial": {
+    "message": "Seriennummer:"
+  },
+  "valid_from": {
+    "message": "Gültig ab"
+  },
+  "to": {
+    "message": "bis"
+  },
+  "key_usage": {
+    "message": "Zertifkat-Schlüssel-Verwendung:"
+  },
+  "email": {
+    "message": "E-Mail-Adresse:"
+  },
+  "issuer": {
+    "message": "Ausgestellt von:"
+  },
+  "token": {
+    "message": "Abgelegt in:"
+  },
+
+  "debug_title": {
+    "message": "Debug-Ausgaben in Konsole"
+  },
+  "debug_description": {
+    "message": "Sendet die Nachrichtenprotokollierung an die Konsole."
+  }
+}

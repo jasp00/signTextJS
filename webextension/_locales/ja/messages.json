@@ -1,0 +1,56 @@
+{
+  "title": {
+    "message": "テキスト署名要求"
+  },
+  "headline": {
+    "message": "このサイト '$hostname$' が次のテキストメッセージへの署名を要求しています:",
+    "placeholders": {
+      "hostname": {
+        "content": "$1"
+      }
+    }
+  },
+  "caption": {
+    "message": "署名に使用する証明書"
+  },
+  "confirm": {
+    "message": "同意を確認するために選択された証明書を使用してこのテキストメッセージに署名するには、マスターパスワードを入力してください。"
+  },
+  "cancel": {
+    "message": "キャンセル"
+  },
+  "ok": {
+    "message": "OK"
+  },
+  "subject": {
+    "message": "発行先:"
+  },
+  "serial": {
+    "message": "シリアル番号:"
+  },
+  "valid_from": {
+    "message": "有効期限"
+  },
+  "to": {
+    "message": "から"
+  },
+  "key_usage": {
+    "message": "証明書キーの用途:"
+  },
+  "email": {
+    "message": "メール:"
+  },
+  "issuer": {
+    "message": "発行者:"
+  },
+  "token": {
+    "message": "保存先:"
+  },
+
+  "debug_title": {
+    "message": "デバッグをコンソールへ出力"
+  },
+  "debug_description": {
+    "message": "メッセージログをコンソールへ送ります。"
+  }
+}

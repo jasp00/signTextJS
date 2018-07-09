@@ -1,0 +1,56 @@
+{
+  "title": {
+    "message": "文本签名请求"
+  },
+  "headline": {
+    "message": "网站“$hostname$”请求您签署下列文本消息：",
+    "placeholders": {
+      "hostname": {
+        "content": "$1"
+      }
+    }
+  },
+  "caption": {
+    "message": "签署证书"
+  },
+  "confirm": {
+    "message": "为确认您同意使用您所选择的证书签署此消息，请输入主密码以确认："
+  },
+  "cancel": {
+    "message": "取消"
+  },
+  "ok": {
+    "message": "确定"
+  },
+  "subject": {
+    "message": "签发给："
+  },
+  "serial": {
+    "message": "序列号："
+  },
+  "valid_from": {
+    "message": "有效期自"
+  },
+  "to": {
+    "message": "至"
+  },
+  "key_usage": {
+    "message": "证书密钥用途："
+  },
+  "email": {
+    "message": "电子邮件地址："
+  },
+  "issuer": {
+    "message": "颁发者："
+  },
+  "token": {
+    "message": "存储在："
+  },
+
+  "debug_title": {
+    "message": "调试信息传至控制台"
+  },
+  "debug_description": {
+    "message": "发送日志记录到控制台。"
+  }
+}

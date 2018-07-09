@@ -1,0 +1,56 @@
+{
+  "title": {
+    "message": "Richiesta la firma del testo"
+  },
+  "headline": {
+    "message": "Il sito '$hostname$' ha richiesto la firma del seguente messaggio di testo:",
+    "placeholders": {
+      "hostname": {
+        "content": "$1"
+      }
+    }
+  },
+  "caption": {
+    "message": "Certificato di firma"
+  },
+  "confirm": {
+    "message": "Inserisci la password principale per accettare di firmare il messaggio di testo utilizzando il certificato selezionato:"
+  },
+  "cancel": {
+    "message": "Annulla"
+  },
+  "ok": {
+    "message": "Ok"
+  },
+  "subject": {
+    "message": "Rilasciato a:"
+  },
+  "serial": {
+    "message": "Numero di serie:"
+  },
+  "valid_from": {
+    "message": "Valido da"
+  },
+  "to": {
+    "message": "a"
+  },
+  "key_usage": {
+    "message": "Utilizzo del certificato della chiave:"
+  },
+  "email": {
+    "message": "Email:"
+  },
+  "issuer": {
+    "message": "Rilasciato da:"
+  },
+  "token": {
+    "message": "Archiviato su:"
+  },
+
+  "debug_title": {
+    "message": "Debug nella console"
+  },
+  "debug_description": {
+    "message": "Invia il contenuto del log alla console."
+  }
+}

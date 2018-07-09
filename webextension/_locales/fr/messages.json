@@ -1,0 +1,56 @@
+{
+  "title": {
+    "message": "Demande de signature d’un texte"
+  },
+  "headline": {
+    "message": "Le site « $hostname$ » vous demande de signer le message suivant :",
+    "placeholders": {
+      "hostname": {
+        "content": "$1"
+      }
+    }
+  },
+  "caption": {
+    "message": "Certificat de signature"
+  },
+  "confirm": {
+    "message": "Pour confirmer que vous souhaitez signer ce texte avec le certificat choisi, saisissez le mot de passe principal :"
+  },
+  "cancel": {
+    "message": "Annuler"
+  },
+  "ok": {
+    "message": "OK"
+  },
+  "subject": {
+    "message": "Émis pour :"
+  },
+  "serial": {
+    "message": "Numéro de série :"
+  },
+  "valid_from": {
+    "message": "Valide depuis"
+  },
+  "to": {
+    "message": "jusqu’à"
+  },
+  "key_usage": {
+    "message": "Usage de la clé de certificat :"
+  },
+  "email": {
+    "message": "Adresse électronique :"
+  },
+  "issuer": {
+    "message": "Émis par :"
+  },
+  "token": {
+    "message": "Stocké dans :"
+  },
+
+  "debug_title": {
+    "message": "Déboguer dans la console"
+  },
+  "debug_description": {
+    "message": "Envoie la journalisation des messages à la console."
+  }
+}

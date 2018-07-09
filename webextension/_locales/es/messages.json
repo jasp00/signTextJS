@@ -1,0 +1,56 @@
+{
+  "title": {
+    "message": "Solicitud de firma de texto"
+  },
+  "headline": {
+    "message": "El sitio «$hostname$» ha solicitado que firme el siguiente mensaje de texto:",
+    "placeholders": {
+      "hostname": {
+        "content": "$1"
+      }
+    }
+  },
+  "caption": {
+    "message": "Certificado de firma"
+  },
+  "confirm": {
+    "message": "Para confirmar que acepta firmar este mensaje de texto con el certificado seleccionado, escriba la contraseña maestra:"
+  },
+  "cancel": {
+    "message": "Cancelar"
+  },
+  "ok": {
+    "message": "Aceptar"
+  },
+  "subject": {
+    "message": "Emitido para:"
+  },
+  "serial": {
+    "message": "Número de serie:"
+  },
+  "valid_from": {
+    "message": "Válido desde"
+  },
+  "to": {
+    "message": "para"
+  },
+  "key_usage": {
+    "message": "Uso de la clave de certificado:"
+  },
+  "email": {
+    "message": "Correo electrónico:"
+  },
+  "issuer": {
+    "message": "Emitido por:"
+  },
+  "token": {
+    "message": "Almacenado en:"
+  },
+
+  "debug_title": {
+    "message": "Depurar en la consola"
+  },
+  "debug_description": {
+    "message": "Envía el registro de mensajes a la consola."
+  }
+}

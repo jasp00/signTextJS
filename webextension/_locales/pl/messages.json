@@ -1,0 +1,56 @@
+{
+  "title": {
+    "message": "Prośba o podpisanie wiadomości tekstowej"
+  },
+  "headline": {
+    "message": "Witryna '$hostname$' prosi o podpis następującej wiadomości tekstowej:",
+    "placeholders": {
+      "hostname": {
+        "content": "$1"
+      }
+    }
+  },
+  "caption": {
+    "message": "Certyfikat podpisywania"
+  },
+  "confirm": {
+    "message": "Aby potwierdzić zgodę na podpis tej wiadomości tekstowej za pomocą wybranego certyfikatu, wpisz hasło główne:"
+  },
+  "cancel": {
+    "message": "Anuluj"
+  },
+  "ok": {
+    "message": "OK"
+  },
+  "subject": {
+    "message": "Wystawione dlaa:"
+  },
+  "serial": {
+    "message": "Numer seryjny:"
+  },
+  "valid_from": {
+    "message": "Ważne od"
+  },
+  "to": {
+    "message": "do"
+  },
+  "key_usage": {
+    "message": "Użycie klucza certyfikatu:"
+  },
+  "email": {
+    "message": "E-mail:"
+  },
+  "issuer": {
+    "message": "Wystawca:"
+  },
+  "token": {
+    "message": "Przechowywane w:"
+  },
+
+  "debug_title": {
+    "message": "Konsola debugowania"
+  },
+  "debug_description": {
+    "message": "Przesyła zapisywanie wiadomości do konsoli."
+  }
+}

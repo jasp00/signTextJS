@@ -1,0 +1,56 @@
+{
+  "title": {
+    "message": "Solicitação de Assinatura de Texto"
+  },
+  "headline": {
+    "message": "O site '$hostname$' solicitou que você assine a mensagem de texto a seguir:",
+    "placeholders": {
+      "hostname": {
+        "content": "$1"
+      }
+    }
+  },
+  "caption": {
+    "message": "Certificado de assinatura"
+  },
+  "confirm": {
+    "message": "Para confirmar que você concorda em assinar essa mensagem de texto usando seu certificado selecionado, confirme digitando a senha mestra:"
+  },
+  "cancel": {
+    "message": "Cancelar"
+  },
+  "ok": {
+    "message": "OK"
+  },
+  "subject": {
+    "message": "Emitido para:"
+  },
+  "serial": {
+    "message": "Número de Série:"
+  },
+  "valid_from": {
+    "message": "Válido de"
+  },
+  "to": {
+    "message": "para"
+  },
+  "key_usage": {
+    "message": "Uso de chave do certificado:"
+  },
+  "email": {
+    "message": "E-mail:"
+  },
+  "issuer": {
+    "message": "Emitido por:"
+  },
+  "token": {
+    "message": "Armazenado em:"
+  },
+
+  "debug_title": {
+    "message": "Depurar no console"
+  },
+  "debug_description": {
+    "message": "Envia o log de mensagens para o console."
+  }
+}
