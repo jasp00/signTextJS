@@ -13,13 +13,58 @@ rm -fr installer.root
 mkdir installer.root
 cd installer.root
 
-install "$TOPDIR"/src/macos/signtextjs_plus .
 install -m 644 "$TOPDIR"/src/signtextjs_plus.json .
+mkdir signtextjs_plus.app
+cd signtextjs_plus.app
+install "$TOPDIR"/src/macos/signtextjs_plus .
+install -m 644 \
+	/usr/local/opt/jsoncpp/lib/libjsoncpp.19.dylib \
+	/usr/local/opt/nspr/lib/libnspr4.dylib \
+	/usr/local/opt/nspr/lib/libplc4.dylib \
+	/usr/local/opt/nspr/lib/libplds4.dylib \
+	/usr/local/opt/nss/lib/*.dylib \
+	.
+for FILE in signtextjs_plus *.dylib
+do
+	DYLIBS="$(otool -l $FILE | grep -Eo "/usr/local/.*dylib" || true)"
+	for DYLIB in $DYLIBS
+	do
+		REL=${DYLIB##*/}
+		if [ "$REL" = "$FILE" ]
+		then
+			continue
+		fi
+		install_name_tool -change $DYLIB @executable_path/$REL $FILE
+	done
+done
+MOZ_CRASHREPORTER_EVENTS_DIRECTORY="$TOPDIR"/test/macos/nssdb/crashes/events \
+	"$TOPDIR"/test/macos/test ./signtextjs_plus
+cd ..
 
 LINUXDIR=/usr/lib/mozilla/native-messaging-hosts
-MACOSDIR="/Library/Application Support/Mozilla/NativeMessagingHosts"
+MACOSDIR="/Library/Application Support/Mozilla/NativeMessagingHosts\
+/signtextjs_plus.app"
 sed -i .bak "s#$LINUXDIR#$MACOSDIR#" signtextjs_plus.json
 
 cd ..
 DMGFILE=signtextjs_plus-"$VERSION"-macos.dmg
 appdmg installer/macos/package.json "$DMGFILE"
+
+SOURCEDIR=embedded-libs-"$VERSION"-macos-source
+rm -fr "$SOURCEDIR"
+mkdir "$SOURCEDIR"
+cd "$SOURCEDIR"
+
+brew fetch -s jsoncpp nspr nss
+for FILE in "$HOME"/Library/Caches/Homebrew/downloads/*
+do
+	case "$FILE" in
+	*.bottle.tar.*)
+		continue
+		;;
+	esac
+	cp -a "$FILE" .
+done
+
+cd ..
+tar Jcf "$SOURCEDIR".tar.xz "$SOURCEDIR"
