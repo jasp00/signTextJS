@@ -7,3 +7,6 @@ make
 cd ../../test/win64
 make
 ./runtest
+
+VERSION="${TRAVIS_TAG:-v0.0.0}"
+installer/win64/build-installer . "${VERSION#?}"

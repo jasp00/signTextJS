@@ -5,6 +5,7 @@ sudo apt-get install -y \
 	libjsoncpp-dev \
 	libjsoncpp-mingw-w64-x86-64 \
 	libnss3-tools \
+	nsis \
 	nspr-mingw-w64-x86-64 \
 	nss-mingw-w64-x86-64 \
 	sqlite3-mingw-w64-x86-64 \

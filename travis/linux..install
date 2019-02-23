@@ -2,4 +2,5 @@
 sudo apt-get install -y \
 	libjsoncpp-dev \
 	libnss3-dev \
-	libnss3-tools
+	libnss3-tools \
+	makeself

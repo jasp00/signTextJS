@@ -1,6 +1,0 @@
-#!/bin/sh
-set -e
-
-sudo apt-get install -y makeself
-
-installer/linux/build-installer . "${TRAVIS_TAG#?}"
