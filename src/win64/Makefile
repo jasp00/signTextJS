@@ -6,3 +6,8 @@ signtextjs_plus.exe: ../signtextjs_plus.cpp ../config.h
 
 ../config.h: ../../webextension/manifest.json
 	../gen-config < $< > $@
+
+clean:
+	rm -f signtextjs_plus.exe ../config.h
+
+.PHONY: clean

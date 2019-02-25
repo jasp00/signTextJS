@@ -1,13 +1,8 @@
 #!/bin/sh
 set -e
 
-cd src/win64
-make
+make -C src/win64
+make -C test/win64 check
 
-cd ../../test/win64
-make
-./runtest
-
-cd ../..
 VERSION="${TRAVIS_TAG:-v0.0.0}"
 installer/win64/build-installer . "${VERSION#?}"

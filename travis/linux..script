@@ -1,13 +1,8 @@
 #!/bin/sh
 set -e
 
-cd src/linux
-make
+make -C src/linux
+make -C test/linux check
 
-cd ../../test/linux
-make
-./runtest
-
-cd ../..
 VERSION="${TRAVIS_TAG:-v0.0.0}"
 installer/linux/build-installer . "${VERSION#?}"

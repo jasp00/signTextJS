@@ -7,3 +7,8 @@ signtextjs_plus: ../signtextjs_plus.cpp ../config.h
 
 ../config.h: ../../webextension/manifest.json
 	../gen-config < $< > $@
+
+clean:
+	rm -f signtextjs_plus ../config.h
+
+.PHONY: clean

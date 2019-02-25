@@ -1,13 +1,8 @@
 #!/bin/sh
 set -e
 
-cd src/macos
-make
+make -C src/macos
+make -C test/macos check
 
-cd ../../test/macos
-make
-./runtest
-
-cd ../..
 VERSION="${TRAVIS_TAG:-v0.0.0}"
 installer/macos/build-installer . "${VERSION#?}"
