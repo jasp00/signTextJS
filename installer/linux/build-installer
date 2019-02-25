@@ -7,15 +7,15 @@ VERSION="$2"
 TOPDIR="$(readlink -e "$TOPDIR")"
 
 cd "$TOPDIR"
-[ -e src/linux/signtextjs_plus-bin ]
+[ -e src/linux/signtextjs_plus ]
 
 rm -fr installer.root
 mkdir installer.root
 cd installer.root
 
-install "$TOPDIR"/src/linux/signtextjs_plus \
-	"$TOPDIR"/src/linux/signtextjs_plus-bin \
-	"$TOPDIR"/installer/linux/installer \
+install "$TOPDIR"/src/linux/signtextjs_plus signtextjs_plus-bin
+install "$TOPDIR"/installer/linux/installer \
+	"$TOPDIR"/installer/linux/signtextjs_plus \
 	.
 install -m 644 "$TOPDIR"/src/signtextjs_plus.json \
 	/usr/lib/x86_64-linux-gnu/libjsoncpp.so.0 \

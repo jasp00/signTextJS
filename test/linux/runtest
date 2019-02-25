@@ -7,4 +7,4 @@ then
 fi
 
 MOZ_CRASHREPORTER_EVENTS_DIRECTORY="$PWD/nssdb/crashes/events" \
-	./test ../../src/linux/signtextjs_plus-bin
+	./test ../../src/linux/signtextjs_plus
