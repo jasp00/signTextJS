@@ -1,0 +1,32 @@
+Source: signtextjs-plus
+Section: web
+Priority: optional
+Maintainer: Javier Serrano Polo <javier@jasp.net>
+Build-Depends:
+ debhelper (>= 10),
+ libjsoncpp-dev,
+ libnss3-dev,
+ libnss3-tools <!nocheck>
+Standards-Version: 3.9.8
+
+Package: signtextjs-plus-back-end
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Recommends: webext-signtextjs-plus
+Description: signTextJS plus native back end
+ Native back end called by the web browser.
+
+Package: webext-signtextjs-plus
+Architecture: all
+Depends: signtextjs-plus-back-end, ${misc:Depends}
+Recommends: firefox-esr (>= 57) | firefox (>= 57)
+Description: window.crypto.signText support and enhancements
+ window.crypto.signText is a digital signature technology that has been
+ available to Firefox users for 20 years. It is used by government and banking
+ sites. It can be used to participate in plebiscites.
+ .
+ signTextJS plus takes over this technology. It restores automatic signatures
+ and filtering by certificate authority, and provides these enhancements:
+  * An asynchronous mode.
+  * Filtering by non-repudiation.
+  * SHA-256 support.

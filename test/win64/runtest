@@ -1,11 +1,6 @@
 #!/bin/sh
 set -e
 
-if [ ! -e nssdb ]
-then
-	../setup-nssdb
-fi
-
 ../../installer/win64/copy-dlls
 
 WINPWD="$(echo $PWD | sed -e 's#/#\\#g')"

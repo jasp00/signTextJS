@@ -4,10 +4,13 @@ test: ../test.cpp ../config.h
 ../config.h: ../../src/config.h
 	cp -a $< $@
 
-check: test
+nssdb:
+	PATH="$$PATH$${PATH:+:}/usr/local/opt/nss/bin" ../setup-nssdb
+
+check: nssdb test
 	./runtest
 
 clean:
-	rm -f test ../config.h
+	rm -fr nssdb test ../config.h
 
 .PHONY: check clean

@@ -1,0 +1,49 @@
+#!/usr/bin/make -f
+build-indep:
+
+build-arch: build-arch-stamp
+build-arch-stamp:
+	dh_testdir
+	$(MAKE) -C src/linux
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+	$(MAKE) -C test/linux check
+endif
+	touch $@
+
+build: build-indep build-arch
+
+clean:
+	dh_testdir
+	$(MAKE) -C src/linux clean
+	$(MAKE) -C test/linux clean
+	dh_clean
+
+binary-indep: build-indep
+	dh_testdir
+	dh_prep -i
+	dh_link -i
+	dh_install -i
+	dh_compress -i
+	dh_fixperms -i
+	dh_installdeb -i
+	dh_gencontrol -i
+	dh_md5sums -i
+	dh_builddeb -i
+
+binary-arch: build-arch
+	dh_testdir
+	dh_prep -a
+	dh_install -a
+	dh_installchangelogs -a
+	dh_installdocs -a
+	dh_strip -a
+	dh_compress -a
+	dh_fixperms -a
+	dh_installdeb -a
+	dh_shlibdeps -a
+	dh_gencontrol -a
+	dh_md5sums -a
+	dh_builddeb -a
+
+binary: binary-indep binary-arch
+.PHONY: build-indep build-arch build clean binary-indep binary-arch binary
