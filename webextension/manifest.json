@@ -16,7 +16,7 @@
     }
   ],
   "default_locale": "en_US",
-  "description": "window.crypto.signText support and enhancements",
+  "description": "__MSG_extensionDescription__",
   "icons": {
     "64": "icons/icon.png"
   },

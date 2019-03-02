@@ -47,6 +47,10 @@
     "message": "Guardat a:"
   },
 
+  "extensionDescription": {
+    "message": "Suport per a window.crypto.signText i millores"
+  },
+
   "debug_title": {
     "message": "Depura a consola"
   },

@@ -47,6 +47,10 @@
     "message": "Stored in:"
   },
 
+  "extensionDescription": {
+    "message": "window.crypto.signText support and enhancements"
+  },
+
   "debug_title": {
     "message": "Debug to console"
   },

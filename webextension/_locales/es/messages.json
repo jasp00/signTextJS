@@ -47,6 +47,10 @@
     "message": "Almacenado en:"
   },
 
+  "extensionDescription": {
+    "message": "Soporte para window.crypto.signText y mejoras"
+  },
+
   "debug_title": {
     "message": "Depurar en la consola"
   },
