@@ -1,7 +1,8 @@
 #!/bin/sh
 set -e
 
-brew install \
-	jsoncpp \
-	nss
+brew bundle --file=- <<- EOF
+	brew "jsoncpp"
+	brew "nss"
+	EOF
 sudo npm install -g appdmg
