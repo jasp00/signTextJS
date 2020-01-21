@@ -48,9 +48,10 @@ MACOSDIR="/Library/Application Support/Mozilla/NativeMessagingHosts\
 sed -i .bak "s#$LINUXDIR#$MACOSDIR#" signtextjs_plus.json
 
 cd ..
-APPDMG="$(find ~/.nvm/versions/node -wholename "*/bin/appdmg")"
+. ~/.nvm/nvm.sh
+nvm install --lts
 DMGFILE=signtextjs_plus-"$VERSION"-macos.dmg
-"$APPDMG" installer/macos/package.json "$DMGFILE"
+appdmg installer/macos/package.json "$DMGFILE"
 
 SOURCEDIR=embedded-libs-"$VERSION"-macos-source
 rm -fr "$SOURCEDIR"
