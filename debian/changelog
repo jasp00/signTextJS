@@ -1,3 +1,9 @@
+signtextjs-plus (0.9.5.1) unstable; urgency=low
+
+  * Maintenance.
+
+ -- Javier Serrano Polo <javier@jasp.net>  Tue, 21 Jan 2020 21:35:41 +0100
+
 signtextjs-plus (0.9.5) unstable; urgency=low
 
   * New upstream release.
