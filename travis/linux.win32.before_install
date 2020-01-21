@@ -2,6 +2,4 @@
 set -e
 
 sudo add-apt-repository -sy ppa:jasp00/mingw-w64-libs
-#sudo cp -a "${TRAVIS_BUILD_DIR}"/travis/keyrings/*.gpg /etc/apt/trusted.gpg.d
-#sudo cp -a "${TRAVIS_BUILD_DIR}"/travis/sources/*.list /etc/apt/sources.list.d
 sudo apt-get update -qq
