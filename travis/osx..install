@@ -6,5 +6,6 @@ brew bundle --file=- <<- EOF
 	brew "nss"
 	EOF
 
+. ~/.nvm/nvm.sh
 nvm install --lts
 npm install -g appdmg
