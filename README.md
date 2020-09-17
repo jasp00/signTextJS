@@ -6,8 +6,8 @@ signTextJS plus
 Why signTextJS plus?
 --------------------
 `window.crypto.signText` is a digital signature technology that has been
-available to Firefox users for 20 years. It is used by government and banking
-sites. It can be used to participate in plebiscites.
+available since 1998. It is used by government and banking sites. It can be used
+to participate in plebiscites.
 
 The `window.crypto` interfaces were removed from Firefox 35 and later releases.
 An add-on was developed as a stop-gap measure for users; that add-on is
