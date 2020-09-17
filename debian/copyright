@@ -3,6 +3,14 @@ Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Files: *
 Copyright: 2019 Javier Serrano Polo <javier@jasp.net>
 License: GPL-3+ with reinstatement exception
+
+Files: webextension/icons/icon.png
+Copyright:
+ 2000 Jakub 'Jimmac' Steiner <jimmac@ximian.com>
+ 2020 Javier Serrano Polo <javier@jasp.net>
+License: GPL-3+ with reinstatement exception
+
+License: GPL-3+ with reinstatement exception
  On Debian systems, the complete text of the GNU General Public License can be
  found in /usr/share/common-licenses/GPL.
  .
