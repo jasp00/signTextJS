@@ -358,8 +358,10 @@ static bool sign_text(Json::Value &req, Json::Value &res) {
 	SECItem digest = {.type = siBuffer, .data = digest_buf,
 		.len = algo->len};
 	if (HASH_HashBuf(algo->type, digest.data, data->data, data->len)
-		!= SECSuccess)
+		!= SECSuccess) {
+		log("Could not hash data");
 		error = true;
+	}
 
 	SECITEM_FreeItem(data, PR_TRUE);
 
@@ -404,6 +406,7 @@ static bool sign_text(Json::Value &req, Json::Value &res) {
 		.len = (unsigned int)p7_str.length()};
 	char *result = NSSBase64_EncodeItem(NULL, NULL, 0, &p7);
 	if (!result) {
+		log("Could not encode result");
 		error = true;
 		goto cleanup_cinfo;
 	}
