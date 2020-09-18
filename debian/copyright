@@ -1,7 +1,13 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 
 Files: *
-Copyright: 2019 Javier Serrano Polo <javier@jasp.net>
+Copyright:
+ 2014 David Keeler <mozkeeler@gmail.com>
+ 2015 Vasil Badev <vbadev@gmail.com>
+ 2016 Plamen Sharapanov <sharapanoff@hotmail.com>
+ 2016 julien2512 <moquet.julien@gmail.com>
+ 2017 Dmitry Bakshaev <dab1818@gmail.com>
+ 2019 Javier Serrano Polo <javier@jasp.net>
 License: GPL-3+ with reinstatement exception
 
 Files: webextension/icons/icon.png
