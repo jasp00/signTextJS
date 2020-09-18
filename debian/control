@@ -22,8 +22,8 @@ Depends: signtextjs-plus-back-end, ${misc:Depends}
 Recommends: firefox-esr (>= 57) | firefox (>= 57)
 Description: window.crypto.signText support and enhancements
  window.crypto.signText is a digital signature technology that has been
- available to Firefox users for 20 years. It is used by government and banking
- sites. It can be used to participate in plebiscites.
+ available since 1998. It is used by government and banking sites. It can be
+ used to participate in plebiscites. It was supported by Firefox natively.
  .
  signTextJS plus takes over this technology. It restores automatic signatures
  and filtering by certificate authority, and provides these enhancements:
