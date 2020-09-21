@@ -60,6 +60,14 @@ https://github.com/jasp00/signTextJS/files/5250259/signtextjs_plus-0.8.7-fx.xpi.
 ); its source code is available at branch
 [`add-on-sdk`](https://github.com/jasp00/signTextJS/tree/add-on-sdk).
 
+Test page
+---------
+You may test the add-on at the HTML [test
+page](https://github.com/jasp00/signTextJS/raw/master/test/html/test.html). You
+might be interested in
+[Showoctocats](https://addons.mozilla.org/en-US/firefox/addon/showoctocats/) if
+you want to render this page as HTML directly.
+
 Corresponding source
 --------------------
 You may find the corresponding source at the add-on
