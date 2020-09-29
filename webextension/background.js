@@ -205,7 +205,8 @@ function signTextCall(request, sender, sendResponse) {
 				);
 
 			let message = {
-				command: "get_certificates"
+				command: "get_certificates",
+				invalid: WEOptions_invalid
 			};
 
 			let CAs = request.detail.CAs;

@@ -46,6 +46,21 @@
   "token": {
     "message": "Stored in:"
   },
+  "invalid": {
+    "message": "Invalid as per:"
+  },
+  "reason_usage": {
+    "message": "Bad usage"
+  },
+  "reason_time": {
+    "message": "Out of time interval"
+  },
+  "reason_non_repudiation": {
+    "message": "Non-repudiation requirement"
+  },
+  "reason_CAs": {
+    "message": "Not issued by a requested authority"
+  },
 
   "extensionDescription": {
     "message": "window.crypto.signText support and enhancements"
@@ -56,5 +71,11 @@
   },
   "debug_description": {
     "message": "Sends message logging to the console."
+  },
+  "invalid_title": {
+    "message": "Invalid certificates"
+  },
+  "invalid_description": {
+    "message": "Allow invalid certificates to be used."
   }
 }

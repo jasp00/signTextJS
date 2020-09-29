@@ -46,6 +46,21 @@
   "token": {
     "message": "Guardat a:"
   },
+  "invalid": {
+    "message": "Invàlid per:"
+  },
+  "reason_usage": {
+    "message": "Mal ús"
+  },
+  "reason_time": {
+    "message": "Fora d'interval de temps"
+  },
+  "reason_non_repudiation": {
+    "message": "Requeriment de no repudiació"
+  },
+  "reason_CAs": {
+    "message": "No lliurat per una autoritat demanada"
+  },
 
   "extensionDescription": {
     "message": "Suport per a window.crypto.signText i millores"
@@ -56,5 +71,11 @@
   },
   "debug_description": {
     "message": "Envia el registre de missatges a la consola."
+  },
+  "invalid_title": {
+    "message": "Certificats invàlids"
+  },
+  "invalid_description": {
+    "message": "Permet emprar certificats invàlids."
   }
 }

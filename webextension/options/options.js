@@ -4,16 +4,24 @@
 
 let _ = browser.i18n.getMessage;
 
-function saveOptions(e) {
+function saveDebug(e) {
 	browser.storage.local.set({
 		debug: document.getElementById("debug").checked
 	});
 }
 
+function saveInvalid(e) {
+	browser.storage.local.set({
+		invalid: document.getElementById("invalid").checked
+	});
+}
+
 function restoreOptions() {
-	browser.storage.local.get({debug: false}).then(
+	browser.storage.local.get({debug: false, invalid: false}).then(
 		(result) => {
 			document.getElementById("debug").checked = result.debug;
+			document.getElementById("invalid").checked
+				= result.invalid;
 		},
 		(error) => {
 			console.log(`Error: ${error}`);
@@ -23,7 +31,10 @@ function restoreOptions() {
 
 restoreOptions();
 
-document.getElementById("debug").addEventListener("change", saveOptions);
+document.getElementById("debug").addEventListener("change", saveDebug);
+document.getElementById("invalid").addEventListener("change", saveInvalid);
 
 document.getElementById("debug_title").textContent = _("debug_title");
 document.getElementById("debug_title").title = _("debug_description");
+document.getElementById("invalid_title").textContent = _("invalid_title");
+document.getElementById("invalid_title").title = _("invalid_description");

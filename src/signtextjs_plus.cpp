@@ -65,6 +65,25 @@ static void error_noMatchingCert(Json::Value &res) {
 	res["result"] = ERROR_NO_MATCHING_CERT;
 }
 
+// Temporary implementation because of a bug in libnss3
+SECStatus CERT_AddCertToListTailWithData(CERTCertList *certs,
+	CERTCertificate *cert, void *appData) {
+	SECStatus status = CERT_AddCertToListTail(certs, cert);
+	if (status != SECSuccess)
+		return status;
+
+	CERT_LIST_TAIL(certs)->appData = appData;
+	return SECSuccess;
+}
+
+static void advance_status(CERTCertList *certs) {
+	for (CERTCertListNode *node = CERT_LIST_HEAD(certs);
+		!CERT_LIST_END(node, certs); node = CERT_LIST_NEXT(node)) {
+		unsigned char *status = (unsigned char *)node->appData;
+		*status = *status + 1;
+	}
+}
+
 static std::string iso_8601(PRTime usecs) {
 	PRExplodedTime exploded;
 	PR_ExplodeTime(usecs, PR_GMTParameters, &exploded);
@@ -115,24 +134,60 @@ static void remove_crlf(char *s) {
 }
 
 static bool get_user_certs(Json::Value &req, Json::Value &res) {
-	CERTCertList *cert_list = PK11_ListCerts(PK11CertListUser, NULL);
-	if (!cert_list) {
+	static const char *REASON[] = {
+		"usage",
+		"time",
+		"non_repudiation",
+		"CAs"
+	};
+
+	bool allow_invalid = req["invalid"].asBool();
+
+	CERTCertList *certs = PK11_ListCerts(PK11CertListUser, NULL);
+	if (!certs) {
 		error_noMatchingCert(res);
 		return false;
 	}
 
+	unsigned count = 0;
+	for (CERTCertListNode *node = CERT_LIST_HEAD(certs);
+		!CERT_LIST_END(node, certs); node = CERT_LIST_NEXT(node))
+		count++;
+	unsigned char *all_status = new unsigned char[count]();
+
 	bool error = false;
 
-	if (CERT_FilterCertListByUsage(cert_list, certUsageEmailSigner,
-		PR_FALSE) != SECSuccess) {
+	CERTCertList *all_certs = CERT_NewCertList();
+	if (!all_certs) {
 		error = true;
-		goto cleanup_list;
+		goto cleanup_all_status;
 	}
 	{
 
+	unsigned char *status_p = all_status;
+	for (CERTCertListNode *node = CERT_LIST_HEAD(certs);
+		!CERT_LIST_END(node, certs); node = CERT_LIST_NEXT(node)) {
+		void *data = status_p++;
+		node->appData = data;
+		CERTCertificate *cert = CERT_DupCertificate(node->cert);
+		if (CERT_AddCertToListTailWithData(all_certs, cert, data)
+			!= SECSuccess) {
+			error = true;
+			goto cleanup_all_certs;
+		}
+	}
+
+	if (CERT_FilterCertListByUsage(certs, certUsageEmailSigner,
+		PR_FALSE) != SECSuccess) {
+		error = true;
+		goto cleanup_all_certs;
+	}
+	advance_status(certs);
+	{
+
 	PRTime now = PR_Now();
-	for (CERTCertListNode *node = CERT_LIST_HEAD(cert_list);
-		!CERT_LIST_END(node, cert_list);) {
+	for (CERTCertListNode *node = CERT_LIST_HEAD(certs);
+		!CERT_LIST_END(node, certs);) {
 		switch (CERT_CheckCertValidTimes(node->cert, now, PR_FALSE)) {
 		case secCertTimeValid:
 		case secCertTimeUndetermined:
@@ -145,11 +200,12 @@ static bool get_user_certs(Json::Value &req, Json::Value &res) {
 			CERT_RemoveCertListNode(removed);
 		}
 	}
+	advance_status(certs);
 
 	bool non_repudiation = req.get("non_repudiation", false).asBool();
 	if (non_repudiation) {
-		CERTCertListNode *node = CERT_LIST_HEAD(cert_list);
-		while (!CERT_LIST_END(node, cert_list)) {
+		CERTCertListNode *node = CERT_LIST_HEAD(certs);
+		while (!CERT_LIST_END(node, certs)) {
 			if (node->cert->keyUsage & KU_NON_REPUDIATION)
 				node = CERT_LIST_NEXT(node);
 			else {
@@ -159,6 +215,7 @@ static bool get_user_certs(Json::Value &req, Json::Value &res) {
 			}
 		}
 	}
+	advance_status(certs);
 
 	if (req.isMember("CAs")) {
 		Json::Value &CAs = req["CAs"];
@@ -167,7 +224,7 @@ static bool get_user_certs(Json::Value &req, Json::Value &res) {
 		for (int i = 0; i < nCANames; i++)
 			caNames[i] = strdup(CAs[i].asCString());
 
-		if (CERT_FilterCertListByCANames(cert_list, nCANames, caNames,
+		if (CERT_FilterCertListByCANames(certs, nCANames, caNames,
 			certUsageEmailSigner) != SECSuccess)
 			error = true;
 
@@ -175,15 +232,17 @@ static bool get_user_certs(Json::Value &req, Json::Value &res) {
 			free(caNames[i]);
 		delete[] caNames;
 		if (error)
-			goto cleanup_list;
+			goto cleanup_all_certs;
 	}
+	advance_status(certs);
 
-	if (CERT_LIST_EMPTY(cert_list))
+	CERTCertList *res_certs = allow_invalid? all_certs: certs;
+	if (CERT_LIST_EMPTY(res_certs))
 		error_noMatchingCert(res);
 	else {
 		int index = 0;
-		for (CERTCertListNode *node = CERT_LIST_HEAD(cert_list);
-			!CERT_LIST_END(node, cert_list);
+		for (CERTCertListNode *node = CERT_LIST_HEAD(res_certs);
+			!CERT_LIST_END(node, res_certs);
 			node = CERT_LIST_NEXT(node)) {
 			CERTCertificate *cert = node->cert;
 			Json::Value &json_cert = res["certificates"][index++];
@@ -205,7 +264,7 @@ static bool get_user_certs(Json::Value &req, Json::Value &res) {
 			if (CERT_GetCertTimes(cert, &notBefore, &notAfter)
 				!= SECSuccess) {
 				error = true;
-				goto cleanup_list;
+				goto cleanup_all_certs;
 			}
 			json_cert["notBefore"] = iso_8601(notBefore);
 			json_cert["notAfter"] = iso_8601(notAfter);
@@ -221,11 +280,15 @@ static bool get_user_certs(Json::Value &req, Json::Value &res) {
 				json_cert["token"]
 					= PK11_GetTokenName(cert->slot);
 
+			unsigned char *status = (unsigned char *)node->appData;
+			if (*status < sizeof REASON / sizeof REASON[0])
+				json_cert["invalid"] = REASON[*status];
+
 			char *der_b64 = NSSBase64_EncodeItem(NULL, NULL, 0,
 				&cert->derCert);
 			if (!der_b64) {
 				error = true;
-				goto cleanup_list;
+				goto cleanup_all_certs;
 			}
 			remove_crlf(der_b64);
 			json_cert["der"] = der_b64;
@@ -234,8 +297,13 @@ static bool get_user_certs(Json::Value &req, Json::Value &res) {
 	}
 
 	}
-cleanup_list:
-	CERT_DestroyCertList(cert_list);
+cleanup_all_certs:
+	CERT_DestroyCertList(all_certs);
+
+	}
+cleanup_all_status:
+	delete[] all_status;
+	CERT_DestroyCertList(certs);
 	return error;
 }
 

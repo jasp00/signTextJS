@@ -36,6 +36,9 @@ function displayCertDetails() {
   ${_("email")} ${cert.email}
 ${_("issuer")} ${cert.issuer}
 ${_("token")} ${cert.token}`;
+	if (cert.invalid)
+		detailsElement.textContent += `
+${_("invalid")} ${_("reason_" + cert.invalid)}`;
 }
 
 function doOK(event) {
