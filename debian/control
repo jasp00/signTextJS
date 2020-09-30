@@ -17,6 +17,7 @@ Description: signTextJS plus native back end
  Native back end called by the web browser.
 
 Package: signtextjs-plus-doc
+Section: doc
 Architecture: all
 Depends: ${misc:Depends}
 Suggests: webext-signtextjs-plus
