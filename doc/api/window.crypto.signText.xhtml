@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+ "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>window.crypto.signText</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1"/>
+</head>
+<body>
+ <h1>window.crypto.signText</h1>
+ <h2>Syntax</h2>
+ <p>
+  <code>window.crypto.signText(text, options, ...CAs)</code>
+ </p>
+ <h2>Parameters</h2>
+ <ul>
+  <li><p><code>text</code>: String to be signed.</p></li>
+  <li>
+   <p><code>options</code>: String of space-separated options. These are:</p>
+   <ul>
+    <li>
+<code>ask</code>: This option is currently ignored. It indicates that the user
+should select a certificate and enter the associated password.
+    </li>
+    <li>
+<code>auto</code>: Enable automatic signature; only <code>file:</code> locations
+are allowed. The first available certificate will be used without password.
+    </li>
+    <li>
+<code>non-repudiation</code>: Allow only certificates with non-repudiation.
+    </li>
+    <li><code>sha-256</code>: Use SHA-256.</li>
+   </ul>
+  </li>
+  <li>
+   <p>
+<code>CAs</code>: List of string parameters. Each string represents the
+distinguished name of a certificate authority; a specific notation may be
+required. Certificates must be issued by one of these authorities or their
+subordinates.
+   </p>
+  </li>
+ </ul>
+ <h2>Description</h2>
+ <p>
+This function signs a text digitally. If signature is automatic, the first
+available certificate will be used. Otherwise, the user will see the text and
+choose the certificate.
+ </p>
+ <p>
+This function is synchronous.
+<a href="window.crypto.signTextAsync.xhtml"
+><code>window.crypto.signTextAsync</code></a> is the asynchronous version.
+ </p>
+ <h2>Return value</h2>
+ <p>
+If the operation succeeds, the return value is a Base64-encoded PKCS #7
+signed-data object wrapped in a CMS ContentInfo object. Otherwise, it is one of
+these error strings:
+ </p>
+ <ul>
+  <li>
+<code>error:internalError</code>: An internal error occurred. If preference
+"Debug to console" is enabled, the browser console may provide further
+information.
+  </li>
+  <li>
+<code>error:noMatchingCert</code>: No valid certificate was found. If preference
+"Invalid certificates" is enabled, invalid certificates are listed and their
+details will show the failed requirement.
+  </li>
+  <li><code>error:userCancel</code>: The user canceled the operation.</li>
+ </ul>
+</body>
+</html>

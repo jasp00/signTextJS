@@ -16,10 +16,19 @@ Recommends: webext-signtextjs-plus
 Description: signTextJS plus native back end
  Native back end called by the web browser.
 
+Package: signtextjs-plus-doc
+Architecture: all
+Depends: ${misc:Depends}
+Suggests: webext-signtextjs-plus
+Description: signTextJS plus documentation
+ Documentation for signTextJS plus includes:
+  * JavaScript API
+
 Package: webext-signtextjs-plus
 Architecture: all
 Depends: signtextjs-plus-back-end, ${misc:Depends}
 Recommends: firefox-esr (>= 57) | firefox (>= 57)
+Suggests: signtextjs-plus-doc
 Description: window.crypto.signText support and enhancements
  window.crypto.signText is a digital signature technology that has been
  available since 1998. It is used by government and banking sites. It can be
