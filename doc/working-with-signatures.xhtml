@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+ "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>Working with signatures</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1"/>
+</head>
+<body>
+ <h1>Working with signatures</h1>
+ <h2>Decode Base64 string</h2>
+ <p><code>base64 -d signature.b64 > signature.der</code></p>
+ <h2>Verify signature</h2>
+ <p>With Network Security Service tools:</p>
+ <p><code>signver -d dbdir -i content -s signature.der</code></p>
+ <p>With OpenSSL utility:</p>
+ <p>
+<code>openssl smime -verify -content content -in signature.der -inform der
+-CAfile CA.crt -out /dev/null</code>
+ </p>
+ <h2>Dump signature structure</h2>
+ <p>With Network Security Service tools:</p>
+ <p><code>derdump -i signature.der</code></p>
+ <p>With OpenSSL utility:</p>
+ <p><code>openssl cms -in signature.der -inform der -cmsout -print</code></p>
+</body>
+</html>
