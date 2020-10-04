@@ -62,7 +62,7 @@ brew fetch -s jsoncpp nspr nss
 for FILE in "$HOME"/Library/Caches/Homebrew/downloads/*
 do
 	case "$FILE" in
-	*.bottle.tar.*)
+	*.bottle.*)
 		continue
 		;;
 	esac
